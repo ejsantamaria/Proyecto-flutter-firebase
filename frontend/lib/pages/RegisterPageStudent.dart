@@ -964,7 +964,7 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
           "uid": "$us",
           "name": name.text.trim(),
           "surname": surname.text.trim(),
-          "Rol": "Usuario", //"Rol": "Motorizado",
+          "Rol": "Usuario", //"Rol": "User",
           "age": age.text.trim(),
           "phone": phone.text.trim(),
           "email": email.text.trim(),

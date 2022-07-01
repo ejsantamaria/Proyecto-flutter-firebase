@@ -369,11 +369,11 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                         .show('${user.email} Bienvenido Administrador');
                   } else if (sections == "Usuario") {
                     /*dev.log(result.data().toString(),
-                        name: "Doc data from Motorizado");*/
+                        name: "Doc data from Student");*/
                     mainProvider.motocycle = json.encode(result.data());
 
                     /*dev.log(mainProvider.motocycle,
-                        name: "Main Provider Motorizado - LoginPage");*/
+                        name: "Main Provider Student - LoginPage");*/
                     mainProvider.token = user.uid;
                     mainProvider.adm = false;
 

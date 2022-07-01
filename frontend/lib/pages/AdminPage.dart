@@ -92,7 +92,7 @@ class _AdminPageState extends State<AdminPage> {
                   },*/
                   onPressed: () {  },
                   child: Text(
-                    "Ver motorizados",
+                    "Ver estudiantes",
                     style: TextStyle(color: Constants.BACKGROUNDS),
                   ),
                 ),
@@ -171,7 +171,7 @@ class _AdminPageState extends State<AdminPage> {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
                                     Text(
-                                        '\nProwessBike está a disposición de aquellos motorizados que han sido aprobados por el administrador quien registrara a los mismos por medio de la aplicación y a su vez asigna un usuario y una contraseña para que el motorizado.\n\n'),
+                                        '\nProwessBike está a disposición de aquellos motorizados que han sido aprobados por el administrador quien registrara a los mismos por medio de la aplicación y a su vez asigna un usuario y una contraseña para que el estudiante.\n\n'),
                                     Text(
                                         '¿Se puede recuperar la contraseña de un administrador en caso de olvidarla?',
                                         style: TextStyle(
