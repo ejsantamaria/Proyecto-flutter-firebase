@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:frontend/pages/AdminPage.dart';
 import 'package:frontend/pages/loginPages.dart';
-import 'package:frontend/pages/verify.dart';
 import 'package:frontend/services/imageService.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
@@ -200,7 +199,7 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
                   }
 
                   print(
-                      "_____----******************************completado****************************----_____"); 
+                      "_____----******************************completado****************************----_____");
                   showDialog(
                       context: context,
                       barrierDismissible: false,
@@ -225,7 +224,24 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
                               ],
                             ),
                           ),
-                          
+                          actions: [
+                            TextButton(
+                                child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text('Aceptar',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ))),
+                                onPressed: () {
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute<Null>(
+                                          builder: (BuildContext contex) {
+                                    return new LoginPage();
+                                    //return new VerifyScreen();
+                                  }), (Route<dynamic> route) => false);
+                                })
+                          ],
                         );
                       });
                 } else {
@@ -372,7 +388,7 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
                       return 'No puede dejar este casillero vacío';
                     }
                   }),
-                  TextFormField(
+              TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 keyboardType: TextInputType.number,
                 controller: age,
@@ -577,7 +593,6 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
                 child: MaterialButton(
                     height: 10,
                     minWidth: 10,
-                    
                     textTheme: ButtonTextTheme.normal,
                     onPressed: () async {
                       if (_valid == false) {
@@ -933,16 +948,15 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
           "escuela": school.text.trim(),
           "grade": grade.text.trim(),
           "gparallel": gparallel.text.trim(),
-          "score":0,
+          "score": 0,
         });
       } else {
-        reference =
-            FirebaseFirestore.instance.collection('usuarios');
+        reference = FirebaseFirestore.instance.collection('usuarios');
         await reference.add({
           "uid": "$us",
           "name": name.text.trim(),
           "surname": surname.text.trim(),
-          "Rol": "Usuario",//"Rol": "Motorizado",
+          "Rol": "Usuario", //"Rol": "Motorizado",
           "age": age.text.trim(),
           "phone": phone.text.trim(),
           "email": email.text.trim(),
@@ -951,18 +965,28 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
           "escuela": school.text.trim(),
           "grade": grade.text.trim(),
           "gparallel": gparallel.text.trim(),
-          "score":0,
+          "score": 0,
         });
       }
     });
   }
 
   Future<void> _register() async {
-    final User? user = (
-      await _auth.createUserWithEmailAndPassword(
-      email: email.text, password: password.text,)
-      ).user;
+    final User? user = (await _auth.createUserWithEmailAndPassword(
+      email: email.text,
+      password: password.text,
+    ))
+        .user;
+
     us = user!.uid;
+    print("Email text: " +
+        email.text +
+        " Password: " +
+        password.text +
+        "user: " +
+        user.uid +
+        "uid: " +
+        us);
     // ignore: unnecessary_null_comparison
     if (user != null) {
       setState(() {
@@ -972,6 +996,14 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
     } else {
       _success = false;
     }
+    /*try {
+      final User? user = (await _auth.createUserWithEmailAndPassword(
+        email: email.text, 
+        password: password.text)).user;
+    } on FirebaseAuthException catch(e) {
+
+    }*/
+
   }
 
   //Funcion para guardar los correos electronicos registrados

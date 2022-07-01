@@ -111,6 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Container(
                       child: Text('Juegos educativos para niños con TDAH',
+                          textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headline6),
                     ),
                     Container(
@@ -305,7 +306,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => RegisterPageMotocycle(
-                                      adm: false,
+                                      adm: true,
                                     )));
                       },
                       child: Text(
