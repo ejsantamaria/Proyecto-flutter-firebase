@@ -65,6 +65,6 @@ _showImage() {
         ),
       ),
       child: ClipOval(
-        child: Image.asset('assets/images/ic_launcher.png'),
+        child: Image.asset('assets/logo/logo_principal.png'),
       ));
 }

@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -110,15 +111,19 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
       width: 500,
       height: 800,
       child: Scaffold(
+        backgroundColor: Constants.BACKGROUNDS,
         appBar: AppBar(
+          backgroundColor: Color.fromRGBO(77, 208, 225,1),
           title: Text((widget.adm)
               ? "Registrar nuevo usuario"
-              : "Registrar nuevo usuario"),
+              : "Registrar nuevo usuario",
+              style: TextStyle(fontFamily: 'TitanOne')),
           centerTitle: true,
+          
         ),
         body: Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(primary: Constants.VINTAGE),
+            colorScheme: ColorScheme.light(primary: Colors.black),
           ),
           child: Stepper(
             controlsBuilder: (BuildContext context, ControlsDetails details) {
@@ -133,7 +138,7 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30.0))),
                           backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white70)),
+                              MaterialStateProperty.all<Color>(Constants.BUTTONS_COLOR)),
                       onPressed: details.onStepCancel,
                       child: const Icon(Icons.arrow_back),
                     ),
@@ -146,13 +151,13 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30.0))),
                           backgroundColor: MaterialStateProperty.all<Color>(
-                              Constants.VINTAGE)),
+                              Constants.BUTTONS_COLOR)),
                       onPressed: (widget.adm)
                           ? () => {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AdminPage()),
+                                      builder: (context) => LoginPage()),
                                 )
                               }
                           : () => {
@@ -176,7 +181,7 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30.0))),
                           backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white70)),
+                              MaterialStateProperty.all<Color>(Constants.BUTTONS_COLOR)),
                       onPressed: details.onStepContinue,
                       child: const Icon(Icons.arrow_forward),
                     ),
@@ -255,7 +260,7 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AdminPage()),
+                                builder: (context) => LoginPage()),
                           )
                         }
                     : () => {
@@ -277,9 +282,11 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
   Widget formUser1() {
     GlobalKey<CSCPickerState> _cscPickerKey = GlobalKey();
     return Card(
+      color: Color.fromARGB(255, 159, 225, 255),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 15,
         child: Padding(
+          
             padding: EdgeInsets.all(11.0),
             child: Column(children: <Widget>[
               SizedBox(
@@ -428,7 +435,7 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
                     Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: MaterialButton(
-                            color: Colors.black,
+                            color: Constants.BUTTONS_COLOR,
                             child: const Icon(
                               Icons.camera,
                               color: Colors.white,
@@ -437,7 +444,7 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: MaterialButton(
-                          color: Colors.black,
+                          color: Constants.BUTTONS_COLOR,
                           child: const Icon(
                             Icons.image,
                             color: Colors.white,
@@ -463,6 +470,7 @@ class _RegisterPageState extends State<RegisterPageMotocycle> {
 
   Widget formUser2() {
     return Card(
+      color: Color.fromARGB(255, 159, 225, 255),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 15,
         //key: _form2Key,

@@ -84,7 +84,7 @@ class _MyAppState extends State<MyApp> {
             dev.log(mainProvider.token, name: "MainProvider - Main");
             return MaterialApp(
                 debugShowCheckedModeBanner: false,
-                title: 'Prowess Bike',
+                title: 'Juegos TDAH',
                 theme: ThemeData(
                   primarySwatch: Colors.grey,
                 ),

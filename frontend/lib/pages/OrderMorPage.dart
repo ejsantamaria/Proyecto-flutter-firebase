@@ -52,7 +52,7 @@ class _OrderMotState extends State<OrderMot> {
         appBar: AppBar(
           title: Text('Detalles del pedido'),
           shadowColor: Constants.VINTAGE,
-          backgroundColor: Constants.WHITE,
+          backgroundColor: Constants.BACKGROUNDS,
         ),
         body: StreamBuilder<QuerySnapshot>(
             stream: _pedidoStrem,

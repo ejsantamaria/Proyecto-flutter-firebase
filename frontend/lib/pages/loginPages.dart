@@ -39,6 +39,7 @@ class ScaffoldSnackbar {
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
+  
 
   @override
   State<StatefulWidget> createState() => _LoginPageState();
@@ -68,14 +69,18 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
+      backgroundColor: Constants.BACKGROUNDS,
       resizeToAvoidBottomInset: false,
       body: Builder(
+      
         builder: (BuildContext context) {
+          
           return ListView(
             padding: const EdgeInsets.all(2),
             children: <Widget>[
               SafeArea(child: Container(height: 30.0)),
               Container(
+                
                   padding: EdgeInsets.symmetric(horizontal: 21.0),
                   decoration: BoxDecoration(
                       //color: Theme.of(context).scaffoldBackgroundColor,
@@ -85,11 +90,17 @@ class _LoginPageState extends State<LoginPage> {
                     if (!isKeyboard)
                       Padding(
                         padding: EdgeInsets.only(top: 10),
+                        
                         child: Center(
                             child: Text('Inicio de sesión',
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.headline3)),
-                      ),
+                                style:TextStyle(
+                                  color: Constants.TEXT_COLOR,
+                                  fontSize: 40,
+                                  fontFamily:'TitanOne')),
+                                )),
+                                
+                    
                     Container(
                       height: 15,
                     ),
@@ -112,18 +123,15 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       child: Text('Juegos educativos para niños con TDAH',
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headline6),
+                          style: TextStyle(
+                            color: Constants.TEXT_COLOR,
+                            fontFamily: 'TitanOne',
+                            fontSize: 17)),
                     ),
                     Container(
                       height: 15,
                     ),
-                    Text("Confianza y dedicación al servicio de la comunidad",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Constants.VINTAGE,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic,
-                            fontSize: 18)),
+                    
                     SizedBox(height: 25.0),
                     const _EmailPasswordForm(),
                   ])),
@@ -150,6 +158,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
+      
       key: _formKey,
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -269,7 +278,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                     child: MaterialButton(
                       minWidth: 300,
                       height: 50,
-                      color: Constants.VINTAGE,
+                      color: Constants.BUTTONS_COLOR,
                       shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(Constants.BORDER_RADIOUS)),
@@ -297,7 +306,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                     child: MaterialButton(
                       minWidth: 300,
                       height: 50,
-                      color: Constants.VINTAGE,
+                      color: Constants.BUTTONS_COLOR,
                       shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(Constants.BORDER_RADIOUS)),
@@ -311,7 +320,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                       },
                       child: Text(
                         "Registro",
-                        style: TextStyle(color: Constants.WHITE),
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
@@ -358,13 +367,13 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                     adminRol();
                     ScaffoldSnackbar.of(context)
                         .show('${user.email} Bienvenido Administrador');
-                  } else if (sections == "Motorizado") {
-                    dev.log(result.data().toString(),
-                        name: "Doc data from Motorizado");
+                  } else if (sections == "Usuario") {
+                    /*dev.log(result.data().toString(),
+                        name: "Doc data from Motorizado");*/
                     mainProvider.motocycle = json.encode(result.data());
 
-                    dev.log(mainProvider.motocycle,
-                        name: "Main Provider Motorizado - LoginPage");
+                    /*dev.log(mainProvider.motocycle,
+                        name: "Main Provider Motorizado - LoginPage");*/
                     mainProvider.token = user.uid;
                     mainProvider.adm = false;
 
@@ -543,7 +552,7 @@ class ChangeButtonControl extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 16.0),
             child: Text(
               'Cambiar',
-              style: TextStyle(color: Constants.WHITE),
+              style: TextStyle(color: Constants.BACKGROUNDS),
             ),
           ),
           shape: RoundedRectangleBorder(
@@ -574,7 +583,7 @@ class SearchButtonControl extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 16.0),
             child: Text(
               'Enviar correo de recuperación',
-              style: TextStyle(color: Constants.WHITE),
+              style: TextStyle(color: Constants.BACKGROUNDS),
             ),
           ),
           shape: RoundedRectangleBorder(
@@ -628,10 +637,8 @@ Future resetPassword(BuildContext context) async {
   }
 }
 
-_showImage() {
-  return Container(
-      width: 100.0,
-      height: 100.0,
+/*_showImage() {
+  return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(90.0),
         color: Color.fromARGB(255, 249, 249, 249),
@@ -640,9 +647,30 @@ _showImage() {
           color: Color.fromARGB(255, 69, 100, 69),
           style: BorderStyle.solid,
         ),
+      
+      
+      image: DecorationImage(
+        //image: AssetImage('assets/logo/logo_principal.png'),
+        image: NetworkImage("https://drive.google.com/file/d/1LRvVXg8gcYnE3DLj9mPtOuBK9thUGNVJ/view?usp=sharing"),
+      )));
+}*/
+
+_showImage() {
+  return Container(
+      width: 140.0,
+      height: 140.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white,
+        border: Border.all(
+          width: 1,
+          color: Color.fromARGB(255, 69, 100, 69),
+          style: BorderStyle.solid,
+        ),
       ),
-      child: ClipOval(
-        child: Image.asset('assets/images/ic_launcher.png'),
+      child: Container(
+        child: 
+        Image.network("https://files.fm/thumb_show.php?i=tueb63zzs"),
       ));
 }
 
@@ -659,7 +687,9 @@ forgetPassword(BuildContext context) {
       },
       child: Text(
         "¿Olvidaste tu contraseña?",
-        style: TextStyle(color: Constants.VINTAGE),
+        style: TextStyle(
+          color: Constants.TEXT_COLOR,
+          fontFamily: 'TitanOne'),
       ));
 }
 
@@ -722,6 +752,7 @@ void openPopUp(BuildContext context) {
                                       ],
                                     ),
                                     Container(
+                                
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 20.0),
                                       decoration: BoxDecoration(

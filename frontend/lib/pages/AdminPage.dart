@@ -22,7 +22,7 @@ class _AdminPageState extends State<AdminPage> {
       drawer: ExitMenu(),
       appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Constants.WHITE,
+          backgroundColor: Constants.BACKGROUNDS,
           title: Text("Menú administrador/a",
               style: TextStyle(
                   color: Colors.black,
@@ -49,7 +49,7 @@ class _AdminPageState extends State<AdminPage> {
                       color: Constants.VINTAGE),
                   child: ClipOval(
                       child:
-                          Icon(Icons.person, color: Constants.WHITE, size: 50)),
+                          Icon(Icons.person, color: Constants.BACKGROUNDS, size: 50)),
                 ),
               ),
               Padding(
@@ -70,7 +70,7 @@ class _AdminPageState extends State<AdminPage> {
                                 )));
                   },
                   child: Text("Registrar motorizados",
-                      style: TextStyle(color: Constants.WHITE)),
+                      style: TextStyle(color: Constants.BACKGROUNDS)),
                 ),
               ),
               Padding(
@@ -93,7 +93,7 @@ class _AdminPageState extends State<AdminPage> {
                   onPressed: () {  },
                   child: Text(
                     "Ver motorizados",
-                    style: TextStyle(color: Constants.WHITE),
+                    style: TextStyle(color: Constants.BACKGROUNDS),
                   ),
                 ),
               ),
@@ -116,7 +116,7 @@ class _AdminPageState extends State<AdminPage> {
                   },*/onPressed: () {  },
                   child: Text(
                     "Revisar solicitudes",
-                    style: TextStyle(color: Constants.WHITE),
+                    style: TextStyle(color: Constants.BACKGROUNDS),
                   ),
                 ),
               ),
@@ -138,7 +138,7 @@ class _AdminPageState extends State<AdminPage> {
                   onPressed: () {  },
                   child: Text(
                     "Registrar administrador",
-                    style: TextStyle(color: Constants.WHITE),
+                    style: TextStyle(color: Constants.BACKGROUNDS),
                   ),
                 ),
               ),
@@ -199,7 +199,7 @@ class _AdminPageState extends State<AdminPage> {
                   },
                   child: Text(
                     "Preguntas frecuentes",
-                    style: TextStyle(color: Constants.WHITE),
+                    style: TextStyle(color: Constants.BACKGROUNDS),
                   ),
                 ),
               ),

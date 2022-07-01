@@ -29,10 +29,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+
+
+
+
   cupertino_icons: ^1.0.2
   firebase_core:
   cloud_firestore:
@@ -51,11 +56,13 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 flutter_native_splash:
   color: "#f1ecc3"
-  image: assets/images/ic_launcher.png
+  image: assets/logo/logo_principal.png
   ios: true
   android: true
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -91,12 +98,12 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+     - family: TitanOne
+       fonts:
+         - asset: lib/fonts/TitanOne-Regular.ttf
+
+#           style: italic
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
@@ -105,3 +112,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+assets:
+    - assets/logo/
