@@ -13,14 +13,14 @@ import 'package:frontend/utils/constants.dart' as Constants;
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-class RegisterPageMotocycle extends StatefulWidget {
-  const RegisterPageMotocycle({Key? key, required this.adm}) : super(key: key);
+class RegisterPageStudent extends StatefulWidget {
+  const RegisterPageStudent({Key? key, required this.adm}) : super(key: key);
   final bool adm;
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPageMotocycle> {
+class _RegisterPageState extends State<RegisterPageStudent> {
   String countryValue = "";
   String countryCheck = "";
   String stateValue = "";

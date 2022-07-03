@@ -11,7 +11,7 @@ import 'package:frontend/utils/constants.dart' as Constants;
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as dev;
-import 'RegisterPageMotocycle.dart';
+import 'package:frontend/pages/RegisterPageStudent.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 late bool _visible = true;
@@ -314,7 +314,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => RegisterPageMotocycle(
+                                builder: (context) => RegisterPageStudent(
                                       adm: true,
                                     )));
                       },
@@ -670,7 +670,8 @@ _showImage() {
       ),
       child: Container(
         child: 
-        Image.network("https://files.fm/thumb_show.php?i=tueb63zzs"),
+          Image.asset("assets/logo/logo_principal.png"),
+        //Image.network("https://files.fm/thumb_show.php?i=tueb63zzs"),
       ));
 }
 

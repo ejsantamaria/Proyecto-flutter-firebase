@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/RegisterPageMotocycle.dart';
+import 'package:frontend/pages/RegisterPageStudent.dart';
 import 'package:frontend/pages/exitMenu.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
 
@@ -65,7 +65,7 @@ class _AdminPageState extends State<AdminPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => RegisterPageMotocycle(
+                            builder: (context) => RegisterPageStudent(
                                   adm: true,
                                 )));
                   },
