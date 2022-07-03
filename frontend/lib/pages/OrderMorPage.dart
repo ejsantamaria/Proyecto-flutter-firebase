@@ -4,14 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:frontend/models/motocycleModel.dart';
-//import 'package:frontend/models/pedidoModel.dart';
+import 'package:frontend/models/studentModel.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
-//import 'package:frontend/widgets/Card/orderCard.dart';
 
 import '../provider/main_provider.dart';
-import 'package:intl/intl.dart';
-import 'dart:developer' as dev;
 
 class OrderMot extends StatefulWidget {
   const OrderMot({Key? key, required this.motocycle, required this.pendiente})

@@ -1,11 +1,8 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:frontend/utils/constants.dart' as Constants;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/buttonComponent.dart';
-import 'package:frontend/models/motocycleModel.dart';
+import 'package:frontend/models/studentModel.dart';
 import 'package:frontend/pages/loginPages.dart';
 import 'package:frontend/utils/constants.dart';
 import 'dart:developer' as dev;

@@ -636,25 +636,6 @@ Future resetPassword(BuildContext context) async {
     }
   }
 }
-
-/*_showImage() {
-  return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(90.0),
-        color: Color.fromARGB(255, 249, 249, 249),
-        border: Border.all(
-          width: 3,
-          color: Color.fromARGB(255, 69, 100, 69),
-          style: BorderStyle.solid,
-        ),
-      
-      
-      image: DecorationImage(
-        //image: AssetImage('assets/logo/logo_principal.png'),
-        image: NetworkImage("https://drive.google.com/file/d/1LRvVXg8gcYnE3DLj9mPtOuBK9thUGNVJ/view?usp=sharing"),
-      )));
-}*/
-
 _showImage() {
   return Container(
       width: 140.0,
@@ -671,7 +652,6 @@ _showImage() {
       child: Container(
         child: 
           Image.asset("assets/logo/logo_principal.png"),
-        //Image.network("https://files.fm/thumb_show.php?i=tueb63zzs"),
       ));
 }
 

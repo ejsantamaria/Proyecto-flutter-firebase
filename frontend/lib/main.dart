@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 
-import 'package:frontend/models/motocycleModel.dart';
+import 'package:frontend/models/studentModel.dart';
 import 'package:frontend/pages/AdminPage.dart';
 import 'package:frontend/pages/OrderMorPage.dart';
 import 'package:frontend/pages/loginPages.dart';
