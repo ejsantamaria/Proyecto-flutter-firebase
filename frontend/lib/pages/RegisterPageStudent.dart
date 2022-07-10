@@ -5,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:frontend/pages/AdminPage.dart';
 import 'package:frontend/pages/loginPages.dart';
 import 'package:frontend/services/imageService.dart';
 import 'package:csc_picker/csc_picker.dart';
@@ -282,7 +281,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
   Widget formUser1() {
     GlobalKey<CSCPickerState> _cscPickerKey = GlobalKey();
     return Card(
-      color: Color.fromARGB(255, 159, 225, 255),
+      color: Color.fromARGB(255, 228, 247, 255),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 15,
         child: Padding(
@@ -470,7 +469,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
 
   Widget formUser2() {
     return Card(
-      color: Color.fromARGB(255, 159, 225, 255),
+      color: Color.fromARGB(255, 228, 247, 255),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 15,
         //key: _form2Key,

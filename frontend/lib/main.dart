@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 
 import 'package:frontend/models/studentModel.dart';
-import 'package:frontend/pages/AdminPage.dart';
 import 'package:frontend/pages/OrderMorPage.dart';
 import 'package:frontend/pages/loginPages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -93,8 +92,7 @@ class _MyAppState extends State<MyApp> {
                     : AdminPage())*/
                     mainProvider.token == ""
                         ? LoginPage()
-                        : mainProvider.adm == true
-                            ? AdminPage()
+                        
                             : /*MainPage(
                                 titulo: '', motocycle: mainProvider.motocycle)*/
                             mainProvider.pendientes

@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:frontend/pages/AdminPage.dart';
 import 'package:frontend/pages/mainPage.dart';
 import 'package:frontend/provider/main_provider.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
@@ -364,7 +363,6 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                   if (sections == "Admin") {
                     mainProvider.token = user.uid;
                     mainProvider.adm = true;
-                    adminRol();
                     ScaffoldSnackbar.of(context)
                         .show('${user.email} Bienvenido Administrador');
                   } else if (sections == "Usuario") {
@@ -407,10 +405,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
     }
   }
 
-  Future<dynamic> adminRol() {
-    return Navigator.push(
-        context, MaterialPageRoute(builder: (context) => AdminPage()));
-  }
+  
 
 //A TRAVÉS DEL UID HACER UNA CONSULTA Y PASAR COMO PARÁMETRO EL MOTOCYCLE
   Future<dynamic> motocycleRol(String motocycle) {
