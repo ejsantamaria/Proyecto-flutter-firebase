@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                           padding: EdgeInsets.only(top: 10),
                           child: Center(
-                            child: Text('Inicio de sesión',
+                            child: Text('Inicio de sesión estudiante',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     color: Constants.TEXT_COLOR,
@@ -182,17 +182,10 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                               color: Theme.of(context).primaryColorDark),
                           hintText: 'usuario@gmail.com',
                           label: Text(
-                            'Nombre de usuario o email',
+                            'Nombre de usuario',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
-                        /*validator: (value) {
-                          if (value!.isNotEmpty) {
-                            return emailValidation(value);
-                          } else {
-                            return 'Por favor ingrese su correo';
-                          }
-                        },*/
                       ),
                     ),
                   ],
@@ -200,70 +193,6 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
               ),
             ),
             SizedBox(height: 25.0),
-            /*Container(
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(Constants.BORDER_RADIOUS)),
-                margin: EdgeInsets.only(left: 12, right: 12),
-                elevation: Constants.ELEVATION,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: TextFormField(
-                        controller: _passwordController,
-                        obscuringCharacter: "*",
-                        obscureText: _visible,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          label: Text(
-                            'Contraseña',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          prefixIcon: Icon(Icons.lock_outline,
-                              color: Theme.of(context).primaryColorDark),
-                          suffixIcon: Container(
-                            child: MaterialButton(
-                                height: 10,
-                                minWidth: 10,
-                                child: Icon((_visible == false)
-                                    ? Icons.visibility_rounded
-                                    : Icons.visibility_off_rounded),
-                                textTheme: ButtonTextTheme.normal,
-                                onPressed: () async {
-                                  if (_valid) {
-                                    setState(() {
-                                      _visible = true;
-                                    });
-                                    _valid = false;
-                                  } else {
-                                    setState(() {
-                                      _visible = false;
-                                    });
-                                    _valid = true;
-                                  }
-                                }),
-                          ),
-                        ),
-                        validator: (String? value) {
-                          if (value!.isEmpty)
-                            return 'Por favor ingrese su contraseña';
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),*/
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: 10.0),
-                forgetPassword(context),
-              ],
-            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -294,31 +223,6 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                       },
                     ),
                     //),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: MaterialButton(
-                      minWidth: 300,
-                      height: 50,
-                      color: Constants.BUTTONS_COLOR,
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(Constants.BORDER_RADIOUS)),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterPageStudent(
-                                      adm: true,
-                                    )));
-                      },
-                      child: Text(
-                        "Registro",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
                   ),
                 ),
               ],

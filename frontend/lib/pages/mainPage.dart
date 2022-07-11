@@ -36,18 +36,21 @@ class _MainPageState extends State<MainPage> {
     return new Scaffold(
       backgroundColor: Constants.BACKGROUNDS,
       body: new Container(
-        child: new Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Text("ESTAMOS TRABAJANDO",
-
             style: TextStyle(
               fontFamily: 'Titanone',
               height: 5, 
               fontSize: 20,
               color: BLACK)
             ),
-            new Image.network('https://www.gifsanimados.org/data/media/1003/bob-el-constructor-imagen-animada-0043.gif'),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child:Image.network('https://www.gifsanimados.org/data/media/1003/bob-el-constructor-imagen-animada-0043.gif') ,
+            ),
             Container(
                 margin: EdgeInsets.symmetric(vertical: 40),
                 child: ButtonComponent(

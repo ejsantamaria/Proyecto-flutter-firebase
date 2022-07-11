@@ -6,15 +6,15 @@ import 'package:frontend/utils/constants.dart' as Constants;
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-class RegisterPageAdm extends StatefulWidget {
-  const RegisterPageAdm({
+class RegisterSchool extends StatefulWidget {
+  const RegisterSchool({
     Key? key,
   }) : super(key: key);
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPageAdm> {
+class _RegisterPageState extends State<RegisterSchool> {
   int currentStep = 0;
   String countryValue = "";
   String countryCheck = "";
@@ -64,14 +64,13 @@ class _RegisterPageState extends State<RegisterPageAdm> {
   @override
   Widget build(BuildContext context) {
     //Cargar los datos en la lista
-    recuperarEmail();
     return SizedBox(
       width: 500,
       height: 800,
       child: Scaffold(
         backgroundColor: Constants.BACKGROUNDS,
         appBar: AppBar(
-          title: Text("Registrar nuevo administrador"),
+          title: Text("Registrar nueva unidad educativa"),
           centerTitle: true,
           backgroundColor: Constants.BUTTONS_COLOR,
         ),
@@ -141,7 +140,6 @@ class _RegisterPageState extends State<RegisterPageAdm> {
               final isLastStep = currentStep == getSteps().length - 1;
               if (_listKeys[currentStep].currentState!.validate()) {
                 if (isLastStep) {
-                  await _register();
                   await _sendToServer();
                   print(
                       "_____----******************************completado****************************----_____");
@@ -164,7 +162,7 @@ class _RegisterPageState extends State<RegisterPageAdm> {
                                   width: 125.0,
                                 ),
                                 Text(
-                                  'Su solicitud está siendo procesada por un administrador',
+                                  'Unidad educativa registrada',
                                   textAlign: TextAlign.center,
                                 ),
                               ],
@@ -239,14 +237,14 @@ class _RegisterPageState extends State<RegisterPageAdm> {
                 decoration: InputDecoration(
                   label: Row(
                     children: [
-                      Text("Nombre",
+                      Text("Nombre de escuela",
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(" *", style: const TextStyle(color: Colors.red)),
                     ],
                   ),
                   prefixIcon: Icon(Icons.person_outline_outlined),
                 ),
-                validator: (value) {
+                /*validator: (value) {
                   if (value!.isNotEmpty) {
                     return nameValidation(value);
                   } else {
@@ -254,135 +252,30 @@ class _RegisterPageState extends State<RegisterPageAdm> {
                       return 'No puede dejar este casillero vacío\nEjemplo: Diego';
                     }
                   }
-                },
+                },*/
               ),
-              TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                keyboardType: TextInputType.name,
-                controller: surname,
-                decoration: InputDecoration(
-                  label: Row(
-                    children: [
-                      Text("Apellido",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(" *", style: const TextStyle(color: Colors.red)),
-                    ],
-                  ),
-                  prefixIcon: Icon(Icons.person_outline_outlined),
-                ),
-                validator: (value) {
-                  if (value!.isNotEmpty) {
-                    return surnameValidation(value);
-                  } else {
-                    return 'No puede dejar este casillero vacío\nEjemplo: Padilla';
-                  }
-                },
-              ),
-              TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                controller: email,
-                decoration: InputDecoration(
-                  label: Row(
-                    children: [
-                      Text("Email",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(" *", style: const TextStyle(color: Colors.red)),
-                    ],
-                  ),
-                  prefixIcon: Icon(Icons.alternate_email_outlined),
-                ),
-                validator: (value) {
-                  if (value!.isNotEmpty) {
-                    return emailValidation(value);
-                  } else {
-                    return 'No puede dejar este casillero vacío';
-                  }
-                },
-              ),
-              TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                maxLength: 15,
-                obscuringCharacter: "*",
-                controller: password,
-                obscureText: _visible,
-                decoration: InputDecoration(
-                  label: Row(
-                    children: [
-                      Text("Contraseña",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(" *", style: const TextStyle(color: Colors.red)),
-                    ],
-                  ),
-                  prefixIcon: Icon(Icons.lock_outline,
-                      color: Theme.of(context).primaryColorDark),
-                  suffixIcon: Container(
-                    child: MaterialButton(
-                        height: 10,
-                        minWidth: 10,
-                        child: Icon((_visible == false)
-                            ? Icons.visibility_rounded
-                            : Icons.visibility_off_rounded),
-                        textTheme: ButtonTextTheme.normal,
-                        onPressed: () async {
-                          if (_valid) {
-                            setState(() {
-                              _visible = true;
-                            });
-                            _valid = false;
-                          } else {
-                            setState(() {
-                              _visible = false;
-                            });
-                            _valid = true;
-                          }
-                        }),
-                  ),
-                ),
-                validator: (value) {
-                  if (value!.isNotEmpty) {
-                    return passwordValidation(value);
-                  } else {
-                    return 'No puede dejar este casillero vacío';
-                  }
-                },
-              )
             ])));
   }
 
   String? nameValidation(String? name) {
-    String patttern = r'(^[A-ZÀ-ÝÑ]{1}([a-zà-ÿñ]*$){2,})';
-    String pattern1 = r'^(?=.*\d).+$';
-    String pattern2 = r'^(?=.*\s).+$';
+    String patttern = r'(^[A-ZÀ-ÝÑ][a-zà-ÿñ\sA-ZÀ-ÝÑ]+?)$';
     String pattern3 = r'(^[A-ZÀ-ÝÑ]{1}(.+))';
-    String pattern4 = r'^(?=.*[A-ZÀ-ÝÑ]).{2,}$';
 
     var acum = '';
 
     RegExp regExp = new RegExp(patttern);
-    RegExp regExp1 = new RegExp(pattern1);
-    RegExp regExp2 = new RegExp(pattern2);
     RegExp regExp3 = new RegExp(pattern3);
-    RegExp regExp4 = new RegExp(pattern4);
 
     if (regExp.hasMatch(name!)) {
       return null;
     } else {
-      if (regExp1.hasMatch(name)) {
-        acum += 'Ingrese solo letras\n';
-      }
-      if (regExp2.hasMatch(name)) {
-        acum += 'Elimine los espacios en blanco\n';
-      }
       if (name.length < 3) {
         acum += 'Ingrese más de 3 letras\n';
-      }
-      if (regExp4.hasMatch(name) && !regExp1.hasMatch(name)) {
-        acum += 'Solo la primera letra con mayúscula\n';
       }
       if (!regExp3.hasMatch(name)) {
         acum += 'Ingrese la primera letra con mayúscula';
       }
-      return acum + 'Ejemplo: Diego';
+      return acum + 'Ejemplo: Unidad Educativa Juan Montalvo';
     }
   }
 
@@ -560,14 +453,9 @@ class _RegisterPageState extends State<RegisterPageAdm> {
   Future<void> _sendToServer() async {
     FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference;
-      reference = FirebaseFirestore.instance.collection("usuarios");
+      reference = FirebaseFirestore.instance.collection("escuelas");
       await reference.add({
-        "uid": "$us",
-        "name": name.text.trim(),
-        "surname": surname.text.trim(),
-        "Rol": "Admin",
-        "email": email.text.trim(),
-        "password":password.text.trim()
+        "school_name": name.text.trim(),
       });
     });
   }
@@ -590,21 +478,4 @@ class _RegisterPageState extends State<RegisterPageAdm> {
     }
   }
 
-  //Funcion para recuperar email de la BD
-  Future<void> recuperarEmail() async {
-    var rol = "";
-    var email;
-    await FirebaseFirestore.instance
-        .collection("usuarios")
-        .get()
-        .then((data) => {
-              data.docs.forEach((result) {
-                rol = result.get("Rol");
-                if (rol == "Motorizado") {
-                  email = result.get("email");
-                  emailBD.add(email.toString());
-                }
-              })
-            });
-  }
 }

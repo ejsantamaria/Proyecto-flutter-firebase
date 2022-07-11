@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 import 'dart:developer';
 import 'dart:io';
+import 'package:frontend/pages/AdminPage.dart';
 import 'package:frontend/pages/loginSelector.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,6 +12,7 @@ import 'package:csc_picker/csc_picker.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
 class RegisterPageStudent extends StatefulWidget {
   const RegisterPageStudent({Key? key, required this.adm}) : super(key: key);
@@ -25,6 +27,8 @@ class _RegisterPageState extends State<RegisterPageStudent> {
   String stateValue = "";
   String cityValue = "";
   String addressCountry = "";
+
+  
   //String usernameGenerator = "";
   //String usergenerated = "";
   int currentStep = 0;
@@ -104,12 +108,15 @@ class _RegisterPageState extends State<RegisterPageStudent> {
       ];
 
   List emailsBD = [];
-  String _username="";
+  String _username = "";
+  String selectedItem = "";
+  List items = [];
 
   @override
   Widget build(BuildContext context) {
     //recuperar Email de la base de datos
     recuperarEmail();
+    //getSchoolsDB();//Funcion que recolecta los datos de las escuelas de la bd
     return SizedBox(
       width: 500,
       height: 800,
@@ -221,7 +228,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
                             child: ListBody(
                               children: [
                                 Text(
-                                  'Usuario generado: '+_username,
+                                  'Usuario generado: ' + _username,
                                   textAlign: TextAlign.start,
                                 ),
                                 Image.asset(
@@ -249,7 +256,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute<Null>(
                                           builder: (BuildContext contex) {
-                                    return new LoginSelector();
+                                    return AdminPage();
                                     //return new VerifyScreen();
                                   }), (Route<dynamic> route) => false);
                                 })
@@ -287,6 +294,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
   }
 
   Widget formUser1() {
+    
     GlobalKey<CSCPickerState> _cscPickerKey = GlobalKey();
     return Card(
         color: Color.fromARGB(255, 228, 247, 255),
@@ -502,6 +510,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
     //createUsername(TextEditingController firstname, TextEditingController secondname, TextEditingController lastname, TextEditingController username)
     /*usergenerated =
         createUsername(name.text, secondname.text, surname.text);*/
+    
     return Card(
         color: Color.fromARGB(255, 228, 247, 255),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -510,6 +519,15 @@ class _RegisterPageState extends State<RegisterPageStudent> {
         child: Padding(
             padding: EdgeInsets.all(11.0),
             child: Column(children: <Widget>[
+              
+              DropdownButton(
+                value: selectedItem,
+                hint: Text("Seleccione una opcion"),
+                items: items.map((item) => DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(item),)).toList(),
+                  onChanged: (item) => setState(() => selectedItem = item.toString()),
+              ),
               TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 keyboardType: TextInputType.name,
@@ -996,8 +1014,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
   }
 
   Future<void> _sendToServer(bool admin) async {
-    _username = await
-        createUsername(name.text, secondname.text, surname.text);
+    _username = await createUsername(name.text, secondname.text, surname.text);
     FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference;
       if (admin) {
@@ -1017,7 +1034,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
           "gparallel": gparallel.text.trim(),
           "score": 0,
           "username": _username.trim(),
-          "secondname":secondname.text.trim()
+          "secondname": secondname.text.trim()
         });
       } else {
         reference = FirebaseFirestore.instance.collection('usuarios');
@@ -1036,7 +1053,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
           "gparallel": gparallel.text.trim(),
           "score": 0,
           "username": _username.trim(),
-          "secondname":secondname.text.trim()
+          "secondname": secondname.text.trim()
         });
       }
     });
@@ -1119,5 +1136,24 @@ class _RegisterPageState extends State<RegisterPageStudent> {
       aux += autoincrement.toString();
     }
     return aux;
+  }
+
+  getSchoolsDB() async {
+    var rol;
+    await FirebaseFirestore.instance
+        .collection('escuelas')
+        .get()
+        .then((value) => {
+              value.docs.forEach((result) {
+                rol = result.get("school_name");
+                items.add(rol.toString());
+              })
+            });
+    print("Lista de escuelas encontrada: " + items.toString());
+  }
+
+  asyncronFunctions() async{
+    await recuperarEmail();
+    await getSchoolsDB();
   }
 }

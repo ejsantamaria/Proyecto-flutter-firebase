@@ -16,6 +16,7 @@ class _LoginSelectorState extends State<LoginSelector> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Constants.BACKGROUNDS,
       body: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -59,7 +60,7 @@ class _LoginSelectorState extends State<LoginSelector> {
                       MaterialPageRoute(builder: (context) => LoginPage()));
                 },
                 child: Text(
-                  "Niño",
+                  "Estudiante",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
