@@ -3,12 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend/pages/loginSelector.dart';
 import 'package:provider/provider.dart';
 
 
 import 'package:frontend/models/studentModel.dart';
 import 'package:frontend/pages/OrderMorPage.dart';
-import 'package:frontend/pages/loginPages.dart';
+import 'package:frontend/pages/loginStudent.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:frontend/pages/mainPage.dart';
 import 'dart:async';
@@ -91,8 +92,7 @@ class _MyAppState extends State<MyApp> {
                     ? LoginPage()
                     : AdminPage())*/
                     mainProvider.token == ""
-                        ? LoginPage()
-                        
+                        ? LoginSelector()//LoginPage()
                             : /*MainPage(
                                 titulo: '', motocycle: mainProvider.motocycle)*/
                             mainProvider.pendientes

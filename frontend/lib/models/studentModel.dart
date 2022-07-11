@@ -25,6 +25,8 @@ class UserApp {
         this.grade,
         this.gparallel,
         this.score,
+        this.username,
+        this.secondname
       });
 
   String? rol;
@@ -39,7 +41,8 @@ class UserApp {
   String? grade;
   String? gparallel;
   String? score;
-
+  String? username;
+  String? secondname;
 
   factory UserApp.fromJson(Map<String, dynamic> json) => UserApp(
         rol: json["Rol"],
@@ -54,6 +57,8 @@ class UserApp {
         grade: json["grade"],
         gparallel: json["gparallel"],
         score: json["score"],
+        username: json["username"],
+        secondname: json["secondname"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -69,5 +74,7 @@ class UserApp {
         "grade": grade,
         "gparallel": gparallel,
         "score": score,
+        "username": username,
+        "secondname":secondname
       };
 }

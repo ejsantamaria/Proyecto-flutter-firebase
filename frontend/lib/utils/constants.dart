@@ -15,3 +15,7 @@ const FONT_TEXT_SIZE = 12.0;
 
 const double BORDER_RADIOUS = 15;
 const double ELEVATION = 10;
+
+//Segunda paleta de colores
+const MORADOBAJO = Color(0xffC9BBCF);
+const MORADOALTO = Color(0xff898AA6);

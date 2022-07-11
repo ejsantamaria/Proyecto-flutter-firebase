@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/loginAdmin.dart';
+import 'package:frontend/pages/loginSelector.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/provider/main_provider.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
-import 'package:frontend/pages/loginPages.dart';
+import 'package:frontend/pages/loginStudent.dart';
 
 class ExitMenu extends StatelessWidget {
   @override
@@ -42,7 +44,7 @@ class ExitMenu extends StatelessWidget {
               mainProvider.token = "";
               mainProvider.adm = false;
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginPage()));
+                  MaterialPageRoute(builder: (context) => LoginSelector()));
             },
           ),
         ],

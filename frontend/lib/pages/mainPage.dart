@@ -1,12 +1,9 @@
+import 'package:frontend/pages/loginSelector.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/components/buttonComponent.dart';
-import 'package:frontend/models/studentModel.dart';
-import 'package:frontend/pages/loginPages.dart';
 import 'package:frontend/utils/constants.dart';
-import 'dart:developer' as dev;
-import 'package:provider/provider.dart';
 
 
 
@@ -59,7 +56,7 @@ class _MainPageState extends State<MainPage> {
                     //mainProvider.adm = false;
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute<Null>(builder: (BuildContext contex) {
-                      return new LoginPage();
+                      return new LoginSelector();
                     }), (Route<dynamic> route) => false);
                   },
                   text: "Cerrar sesión",

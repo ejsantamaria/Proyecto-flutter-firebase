@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend/pages/loginSelector.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/pages/mainPage.dart';
 import 'package:frontend/provider/main_provider.dart';
@@ -38,7 +39,6 @@ class ScaffoldSnackbar {
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
-  
 
   @override
   State<StatefulWidget> createState() => _LoginPageState();
@@ -70,16 +70,18 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Constants.BACKGROUNDS,
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: Text("Regresar"),
+        shadowColor: Constants.VINTAGE,
+        backgroundColor: Constants.WHITE,
+      ),
       body: Builder(
-      
         builder: (BuildContext context) {
-          
           return ListView(
             padding: const EdgeInsets.all(2),
             children: <Widget>[
               SafeArea(child: Container(height: 30.0)),
               Container(
-                
                   padding: EdgeInsets.symmetric(horizontal: 21.0),
                   decoration: BoxDecoration(
                       //color: Theme.of(context).scaffoldBackgroundColor,
@@ -88,18 +90,15 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(children: [
                     if (!isKeyboard)
                       Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        
-                        child: Center(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Center(
                             child: Text('Inicio de sesión',
                                 textAlign: TextAlign.center,
-                                style:TextStyle(
-                                  color: Constants.TEXT_COLOR,
-                                  fontSize: 40,
-                                  fontFamily:'TitanOne')),
-                                )),
-                                
-                    
+                                style: TextStyle(
+                                    color: Constants.TEXT_COLOR,
+                                    fontSize: 40,
+                                    fontFamily: 'TitanOne')),
+                          )),
                     Container(
                       height: 15,
                     ),
@@ -123,14 +122,13 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text('Juegos educativos para niños con TDAH',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Constants.TEXT_COLOR,
-                            fontFamily: 'TitanOne',
-                            fontSize: 17)),
+                              color: Constants.TEXT_COLOR,
+                              fontFamily: 'TitanOne',
+                              fontSize: 17)),
                     ),
                     Container(
                       height: 15,
                     ),
-                    
                     SizedBox(height: 25.0),
                     const _EmailPasswordForm(),
                   ])),
@@ -157,7 +155,6 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      
       key: _formKey,
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -181,21 +178,21 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                         controller: _emailController,
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          icon: Icon(Icons.email,
+                          icon: Icon(Icons.flutter_dash,
                               color: Theme.of(context).primaryColorDark),
                           hintText: 'usuario@gmail.com',
                           label: Text(
-                            'Correo electrónico o usuario',
+                            'Nombre de usuario o email',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
-                        validator: (value) {
+                        /*validator: (value) {
                           if (value!.isNotEmpty) {
                             return emailValidation(value);
                           } else {
                             return 'Por favor ingrese su correo';
                           }
-                        },
+                        },*/
                       ),
                     ),
                   ],
@@ -203,17 +200,17 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
               ),
             ),
             SizedBox(height: 25.0),
-            Container(
+            /*Container(
               child: Card(
                 shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.circular(Constants.BORDER_RADIOUS)),
-                margin: EdgeInsets.only(left: 15, right: 15),
+                margin: EdgeInsets.only(left: 12, right: 12),
                 elevation: Constants.ELEVATION,
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                      padding: const EdgeInsets.only(left: 8),
                       child: TextFormField(
                         controller: _passwordController,
                         obscuringCharacter: "*",
@@ -259,7 +256,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                   ],
                 ),
               ),
-            ),
+            ),*/
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -292,7 +289,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                       ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          await _signInWithEmailAndPassword();
+                          await _signInWhithUserPass();
                         }
                       },
                     ),
@@ -339,6 +336,76 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _signInWhithUserPass() async {
+    QuerySnapshot snap = await FirebaseFirestore.instance
+        .collection("usuarios")
+        .where("username", isEqualTo: _emailController.text.toString())
+        .get();
+    _emailController.text = snap.docs[0]["email"];
+    _passwordController.text = snap.docs[0]["password"];
+    final mainProvider = Provider.of<MainProvider>(context, listen: false);
+    try {
+      final User user = (await _auth.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      ))
+          .user!;
+      dev.log(user.toString(), name: "INGRESAR");
+      String userId = FirebaseAuth.instance.currentUser!.uid;
+
+      FirebaseFirestore.instance
+          .collection("usuarios")
+          .where("uid", isEqualTo: userId)
+          .get()
+          .then((value) => {
+                value.docs.forEach((result) {
+                  var sections = result.get("Rol");
+                  dev.log(sections, name: "Sections - Login Pages");
+                  if (sections == "Admin") {
+                    mainProvider.token = user.uid;
+                    mainProvider.adm = true;
+                    ScaffoldSnackbar.of(context)
+                        .show('${user.email} Bienvenido Administrador');
+                  } else if (sections == "Usuario") {
+                    /*dev.log(result.data().toString(),
+                        name: "Doc data from Student");*/
+                    mainProvider.motocycle = json.encode(result.data());
+
+                    /*dev.log(mainProvider.motocycle,
+                        name: "Main Provider Student - LoginPage");*/
+                    mainProvider.token = user.uid;
+                    mainProvider.adm = false;
+
+                    motocycleRol(mainProvider.motocycle);
+                    ScaffoldSnackbar.of(context)
+                        .show('${user.email} Bienvenido Usuario');
+                  } else {
+                    ScaffoldSnackbar.of(context)
+                        .show('${user.email} Bienvenido Usuario');
+                  }
+                })
+              });
+    } catch (e) {
+      /*ScaffoldSnackbar.of(context).show(
+          'Error al iniciar sesión, por favor revise que su correo electrónico y contraseña sean correctos');*/
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text('Error al iniciar sesión'),
+                content: Text(
+                    'Por favor revise que su correo electrónico y contraseña sean correctos'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Ok'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ));
+    }
   }
 
   Future<void> _signInWithEmailAndPassword() async {
@@ -405,9 +472,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
     }
   }
 
-  
-
-//A TRAVÉS DEL UID HACER UNA CONSULTA Y PASAR COMO PARÁMETRO EL MOTOCYCLE
+//A TRAVÉS DEL UID HACER UNA CONSULTA Y PASAR COMO PARÁMETRO EL
   Future<dynamic> motocycleRol(String motocycle) {
     return Navigator.push(
         context,
@@ -631,6 +696,7 @@ Future resetPassword(BuildContext context) async {
     }
   }
 }
+
 _showImage() {
   return Container(
       width: 140.0,
@@ -645,8 +711,7 @@ _showImage() {
         ),
       ),
       child: Container(
-        child: 
-          Image.asset("assets/logo/logo_principal.png"),
+        child: Image.asset("assets/logo/logo_principal.png"),
       ));
 }
 
@@ -663,9 +728,7 @@ forgetPassword(BuildContext context) {
       },
       child: Text(
         "¿Olvidaste tu contraseña?",
-        style: TextStyle(
-          color: Constants.TEXT_COLOR,
-          fontFamily: 'TitanOne'),
+        style: TextStyle(color: Constants.TEXT_COLOR, fontFamily: 'TitanOne'),
       ));
 }
 
@@ -728,7 +791,6 @@ void openPopUp(BuildContext context) {
                                       ],
                                     ),
                                     Container(
-                                
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 20.0),
                                       decoration: BoxDecoration(

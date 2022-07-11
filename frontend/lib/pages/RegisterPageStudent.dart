@@ -1,11 +1,11 @@
 // ignore_for_file: non_constant_identifier_names
+import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/services.dart';
+import 'package:frontend/pages/loginSelector.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:frontend/pages/loginPages.dart';
 import 'package:frontend/services/imageService.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
@@ -25,7 +25,8 @@ class _RegisterPageState extends State<RegisterPageStudent> {
   String stateValue = "";
   String cityValue = "";
   String addressCountry = "";
-  late String _dropDownValue = "";
+  //String usernameGenerator = "";
+  //String usergenerated = "";
   int currentStep = 0;
   File? image;
   String? urlImagen;
@@ -39,6 +40,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
   late String _userEmail = '';
 
   final name = TextEditingController();
+  final secondname = TextEditingController();
   final surname = TextEditingController();
   final nationality = TextEditingController();
   final address = TextEditingController();
@@ -53,6 +55,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
   final school = TextEditingController();
   final grade = TextEditingController();
   final gparallel = TextEditingController();
+  final username = TextEditingController();
 
   final license = TextEditingController();
   final typeLicense = TextEditingController();
@@ -101,6 +104,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
       ];
 
   List emailsBD = [];
+  String _username="";
 
   @override
   Widget build(BuildContext context) {
@@ -112,13 +116,13 @@ class _RegisterPageState extends State<RegisterPageStudent> {
       child: Scaffold(
         backgroundColor: Constants.BACKGROUNDS,
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(77, 208, 225,1),
-          title: Text((widget.adm)
-              ? "Registrar nuevo usuario"
-              : "Registrar nuevo usuario",
+          backgroundColor: Constants.WHITE,
+          title: Text(
+              (widget.adm)
+                  ? "Registrar nuevo usuario"
+                  : "Registrar nuevo usuario",
               style: TextStyle(fontFamily: 'TitanOne')),
           centerTitle: true,
-          
         ),
         body: Theme(
           data: Theme.of(context).copyWith(
@@ -136,8 +140,8 @@ class _RegisterPageState extends State<RegisterPageStudent> {
                           shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30.0))),
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Constants.BUTTONS_COLOR)),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.BUTTONS_COLOR)),
                       onPressed: details.onStepCancel,
                       child: const Icon(Icons.arrow_back),
                     ),
@@ -156,14 +160,14 @@ class _RegisterPageState extends State<RegisterPageStudent> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => LoginPage()),
+                                      builder: (context) => LoginSelector()),
                                 )
                               }
                           : () => {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => LoginPage()),
+                                      builder: (context) => LoginSelector()),
                                 )
                               },
                       child: Text(
@@ -179,8 +183,8 @@ class _RegisterPageState extends State<RegisterPageStudent> {
                           shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30.0))),
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Constants.BUTTONS_COLOR)),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Constants.BUTTONS_COLOR)),
                       onPressed: details.onStepContinue,
                       child: const Icon(Icons.arrow_forward),
                     ),
@@ -216,6 +220,10 @@ class _RegisterPageState extends State<RegisterPageStudent> {
                           content: SingleChildScrollView(
                             child: ListBody(
                               children: [
+                                Text(
+                                  'Usuario generado: '+_username,
+                                  textAlign: TextAlign.start,
+                                ),
                                 Image.asset(
                                   "assets/images/check-correct.gif",
                                   height: 125.0,
@@ -241,7 +249,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute<Null>(
                                           builder: (BuildContext contex) {
-                                    return new LoginPage();
+                                    return new LoginSelector();
                                     //return new VerifyScreen();
                                   }), (Route<dynamic> route) => false);
                                 })
@@ -259,14 +267,14 @@ class _RegisterPageState extends State<RegisterPageStudent> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginPage()),
+                                builder: (context) => LoginSelector()),
                           )
                         }
                     : () => {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginPage()),
+                                builder: (context) => LoginSelector()),
                           )
                         }
                 : () {
@@ -281,11 +289,10 @@ class _RegisterPageState extends State<RegisterPageStudent> {
   Widget formUser1() {
     GlobalKey<CSCPickerState> _cscPickerKey = GlobalKey();
     return Card(
-      color: Color.fromARGB(255, 228, 247, 255),
+        color: Color.fromARGB(255, 228, 247, 255),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 15,
         child: Padding(
-          
             padding: EdgeInsets.all(11.0),
             child: Column(children: <Widget>[
               SizedBox(
@@ -323,6 +330,30 @@ class _RegisterPageState extends State<RegisterPageStudent> {
                   } else {
                     if (value.isEmpty) {
                       return 'No puede dejar este casillero vacío\nEjemplo: Erick';
+                    }
+                  }
+                },
+              ),
+              TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                keyboardType: TextInputType.name,
+                controller: secondname,
+                decoration: InputDecoration(
+                  label: Row(
+                    children: [
+                      Text("Segundo nombre",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(" *", style: const TextStyle(color: Colors.red)),
+                    ],
+                  ),
+                  prefixIcon: Icon(Icons.person_outline_outlined),
+                ),
+                validator: (value) {
+                  if (value!.isNotEmpty) {
+                    return nameValidation(value);
+                  } else {
+                    if (value.isEmpty) {
+                      return 'No puede dejar este casillero vacío\nEjemplo: Jhoel';
                     }
                   }
                 },
@@ -468,8 +499,11 @@ class _RegisterPageState extends State<RegisterPageStudent> {
   }
 
   Widget formUser2() {
+    //createUsername(TextEditingController firstname, TextEditingController secondname, TextEditingController lastname, TextEditingController username)
+    /*usergenerated =
+        createUsername(name.text, secondname.text, surname.text);*/
     return Card(
-      color: Color.fromARGB(255, 228, 247, 255),
+        color: Color.fromARGB(255, 228, 247, 255),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         elevation: 15,
         //key: _form2Key,
@@ -548,6 +582,30 @@ class _RegisterPageState extends State<RegisterPageStudent> {
                   }
                 },
               ),
+              /*TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                keyboardType: TextInputType.name,
+                controller: username,
+                decoration: InputDecoration(
+                  label: Row(
+                    children: [
+                      Text("Nombre de usuario:",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(" *", style: const TextStyle(color: Colors.red)),
+                    ],
+                  ),
+                  prefixIcon: Icon(Icons.person_outline_outlined),
+                ),
+                validator: (value) {
+                  if (value!.isNotEmpty) {
+                    return null;
+                  } else {
+                    if (value.isEmpty) {
+                      return 'No puede dejar este casillero vacío\nEjemplo: Unidad educativa 3 de Diciembre';
+                    }
+                  }
+                },
+              ),*/
               TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 maxLength: 15,
@@ -938,6 +996,8 @@ class _RegisterPageState extends State<RegisterPageStudent> {
   }
 
   Future<void> _sendToServer(bool admin) async {
+    _username = await
+        createUsername(name.text, secondname.text, surname.text);
     FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference;
       if (admin) {
@@ -956,6 +1016,8 @@ class _RegisterPageState extends State<RegisterPageStudent> {
           "grade": grade.text.trim(),
           "gparallel": gparallel.text.trim(),
           "score": 0,
+          "username": _username.trim(),
+          "secondname":secondname.text.trim()
         });
       } else {
         reference = FirebaseFirestore.instance.collection('usuarios');
@@ -973,6 +1035,8 @@ class _RegisterPageState extends State<RegisterPageStudent> {
           "grade": grade.text.trim(),
           "gparallel": gparallel.text.trim(),
           "score": 0,
+          "username": _username.trim(),
+          "secondname":secondname.text.trim()
         });
       }
     });
@@ -1010,7 +1074,6 @@ class _RegisterPageState extends State<RegisterPageStudent> {
     } on FirebaseAuthException catch(e) {
 
     }*/
-
   }
 
   //Funcion para guardar los correos electronicos registrados
@@ -1029,5 +1092,32 @@ class _RegisterPageState extends State<RegisterPageStudent> {
                 }
               })
             });
+  }
+
+  createUsername(String firstname, String secondname, String lastname) async {
+    String aux = firstname[0].toLowerCase() +
+        secondname[0].toLowerCase() +
+        lastname.toLowerCase();
+    var rol = "";
+    var getUsernames = "";
+    int autoincrement = 0;
+    await FirebaseFirestore.instance
+        .collection('usuarios')
+        .get()
+        .then((value) => {
+              value.docs.forEach((result) {
+                rol = result.get("Rol");
+                if (rol == "Usuario") {
+                  getUsernames = result.get("username");
+                  if (getUsernames == aux && getUsernames.isNotEmpty) {
+                    autoincrement++;
+                  }
+                }
+              })
+            });
+    if (autoincrement > 0) {
+      aux += autoincrement.toString();
+    }
+    return aux;
   }
 }
