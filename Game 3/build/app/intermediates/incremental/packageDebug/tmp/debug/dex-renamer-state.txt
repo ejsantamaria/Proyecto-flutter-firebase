@@ -1,0 +1,4 @@
+#Fri Jul 22 12:37:55 COT 2022
+base.0=D\:\\SeptimoSemestre\\Textos Academicos\\Codigo\\Prueba juego 2\\Memory_game\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
