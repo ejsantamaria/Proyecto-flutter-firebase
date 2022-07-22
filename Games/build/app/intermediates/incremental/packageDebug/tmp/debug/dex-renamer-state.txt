@@ -1,0 +1,4 @@
+#Fri Jul 22 00:38:30 COT 2022
+base.0=D\:\\SeptimoSemestre\\Textos Academicos\\Codigo\\Prueba juego\\hangman_flutter\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
