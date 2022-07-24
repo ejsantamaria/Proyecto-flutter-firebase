@@ -11,7 +11,7 @@ import 'package:frontend/models/studentModel.dart';
 import 'package:frontend/pages/OrderMorPage.dart';
 import 'package:frontend/pages/loginStudent.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:frontend/pages/mainPage.dart';
+import 'package:frontend/pages/MainPageStudent.dart';
 import 'dart:async';
 import 'dart:developer' as dev;
 import 'package:frontend/provider/main_provider.dart';
@@ -101,7 +101,7 @@ class _MyAppState extends State<MyApp> {
                                     pendiente: true)
                                 : MainPage(
                                     titulo: '',
-                                    motocycle: mainProvider.motocycle));
+                                    student: mainProvider.motocycle));
           }
           return const SizedBox.square(
               dimension: 100.0, child: CircularProgressIndicator());

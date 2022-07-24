@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\SeptimoSemestre\\Textos Academicos\\Codigo\\Prueba juego\\hangman_flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
+            "outputFile": "D:\\Proyecto LEAC\\Proyecto-LEAC\\Games\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
             "map": [
                 {
-                    "source": "D:\\SeptimoSemestre\\Textos Academicos\\Codigo\\Prueba juego\\hangman_flutter\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "source": "D:\\Proyecto LEAC\\Proyecto-LEAC\\Games\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

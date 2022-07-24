@@ -13,6 +13,13 @@ const FONT_TITLE_SIZE = 40.0;
 const FONT_TITLE_WEIGHT = FontWeight.bold;
 const FONT_TEXT_SIZE = 12.0;
 
+
+
+const BTN_RED = Color.fromRGBO(243, 120, 120, 1);
+const BTN_GREEN = Color.fromRGBO(217, 248, 196, 1);
+const APP_BAR_ORANGE = Color(0xffFAD9A1);
+const BACKGROUND_YELLOW = Color(0xffF9F9C5);
+
 const double BORDER_RADIOUS = 15;
 const double ELEVATION = 10;
 

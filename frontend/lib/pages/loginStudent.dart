@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frontend/pages/loginSelector.dart';
 import 'package:provider/provider.dart';
-import 'package:frontend/pages/mainPage.dart';
+import 'package:frontend/pages/MainPageStudent.dart';
 import 'package:frontend/provider/main_provider.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
 import 'dart:ui';
@@ -247,6 +247,23 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
         .collection("usuarios")
         .where("username", isEqualTo: _emailController.text.toString())
         .get();
+    if(snap.docs.length <= 0){
+      return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text('Error al iniciar sesión'),
+                content: Text(
+                    'Por favor revise que el nombre de usuario sea el correcto'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Ok'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ));
+    }
     _emailController.text = snap.docs[0]["email"];
     _passwordController.text = snap.docs[0]["password"];
     final mainProvider = Provider.of<MainProvider>(context, listen: false);
@@ -273,12 +290,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                     ScaffoldSnackbar.of(context)
                         .show('${user.email} Bienvenido Administrador');
                   } else if (sections == "Usuario") {
-                    /*dev.log(result.data().toString(),
-                        name: "Doc data from Student");*/
                     mainProvider.motocycle = json.encode(result.data());
-
-                    /*dev.log(mainProvider.motocycle,
-                        name: "Main Provider Student - LoginPage");*/
                     mainProvider.token = user.uid;
                     mainProvider.adm = false;
 
@@ -299,71 +311,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
           builder: (context) => AlertDialog(
                 title: Text('Error al iniciar sesión'),
                 content: Text(
-                    'Por favor revise que su correo electrónico y contraseña sean correctos'),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text('Ok'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ));
-    }
-  }
-
-  Future<void> _signInWithEmailAndPassword() async {
-    final mainProvider = Provider.of<MainProvider>(context, listen: false);
-    try {
-      final User user = (await _auth.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      ))
-          .user!;
-      dev.log(user.toString(), name: "INGRESAR");
-      String userId = FirebaseAuth.instance.currentUser!.uid;
-
-      FirebaseFirestore.instance
-          .collection("usuarios")
-          .where("uid", isEqualTo: userId)
-          .get()
-          .then((value) => {
-                value.docs.forEach((result) {
-                  var sections = result.get("Rol");
-                  dev.log(sections, name: "Sections - Login Pages");
-                  if (sections == "Admin") {
-                    mainProvider.token = user.uid;
-                    mainProvider.adm = true;
-                    ScaffoldSnackbar.of(context)
-                        .show('${user.email} Bienvenido Administrador');
-                  } else if (sections == "Usuario") {
-                    /*dev.log(result.data().toString(),
-                        name: "Doc data from Student");*/
-                    mainProvider.motocycle = json.encode(result.data());
-
-                    /*dev.log(mainProvider.motocycle,
-                        name: "Main Provider Student - LoginPage");*/
-                    mainProvider.token = user.uid;
-                    mainProvider.adm = false;
-
-                    motocycleRol(mainProvider.motocycle);
-                    ScaffoldSnackbar.of(context)
-                        .show('${user.email} Bienvenido Usuario');
-                  } else {
-                    ScaffoldSnackbar.of(context)
-                        .show('${user.email} Bienvenido Usuario');
-                  }
-                })
-              });
-    } catch (e) {
-      /*ScaffoldSnackbar.of(context).show(
-          'Error al iniciar sesión, por favor revise que su correo electrónico y contraseña sean correctos');*/
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: Text('Error al iniciar sesión'),
-                content: Text(
-                    'Por favor revise que su correo electrónico y contraseña sean correctos'),
+                    'Por favor revise que el nombre de usuario sea el correcto'),
                 actions: <Widget>[
                   FlatButton(
                     child: Text('Ok'),
@@ -383,7 +331,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
         MaterialPageRoute(
             builder: (context) => MainPage(
                   titulo: "Usuario",
-                  motocycle: motocycle,
+                  student: motocycle,
                 )));
   }
 }

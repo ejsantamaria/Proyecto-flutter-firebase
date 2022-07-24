@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\SeptimoSemestre\\Textos Academicos\\Codigo\\Prueba juego 2\\Memory_game\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
+            "outputFile": "D:\\Proyecto LEAC\\Proyecto-LEAC\\Game 3\\Memory_game\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
             "map": [
                 {
-                    "source": "D:\\SeptimoSemestre\\Textos Academicos\\Codigo\\Prueba juego 2\\Memory_game\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "source": "D:\\Proyecto LEAC\\Proyecto-LEAC\\Game 3\\Memory_game\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

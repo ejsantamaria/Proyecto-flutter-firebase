@@ -7,7 +7,7 @@ import 'package:frontend/pages/AdminPage.dart';
 import 'package:frontend/pages/RegisterPageAdm.dart';
 import 'package:frontend/pages/loginSelector.dart';
 import 'package:provider/provider.dart';
-import 'package:frontend/pages/mainPage.dart';
+import 'package:frontend/pages/MainPageStudent.dart';
 import 'package:frontend/provider/main_provider.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
 import 'dart:ui';
@@ -411,7 +411,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
         MaterialPageRoute(
             builder: (context) => MainPage(
                   titulo: "Usuario",
-                  motocycle: motocycle,
+                  student: motocycle,
                 )));
   }
 }

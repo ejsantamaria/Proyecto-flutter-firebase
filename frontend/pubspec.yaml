@@ -29,14 +29,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    
+  flame: 1.0.0-releasecandidate.13
+  flame_audio: ^1.0.0-rc.1    
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-
-
-
 
   cupertino_icons: ^1.0.2
   firebase_core:
@@ -55,6 +53,11 @@ dependencies:
   mailer: 
   flutter_email_sender: 
   google_fonts: 
+  word_search: 
+  carousel_slider:
+  image:
+  animate_do:
+  
 
 dev_dependencies:
   flutter_test:
@@ -92,6 +95,8 @@ flutter:
   assets:
     - assets/logo/
     - assets/images/
+    - assets/
+    - assets/audio/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
