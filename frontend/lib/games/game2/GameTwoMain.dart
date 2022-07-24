@@ -105,13 +105,6 @@ class _GameTwoMainState extends State<GameTwoMain> {
               await _sendToServer();
               _startGame = false;
             }
-            /*setState(() {
-              Game.score = 6;
-              Game.tries = 0;
-              Game.selectedChar = [];
-              correct_selected = "";
-              word = words();
-            });*/
             Navigator.of(context).pop();
           }),
         ),

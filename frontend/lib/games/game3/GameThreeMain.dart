@@ -1,10 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/games/game3/data/info_card.dart';
 import 'package:frontend/games/game3/model/gameModel.dart';
+import 'package:frontend/models/scoreModel.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
+import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+Duration _totalTime = new Duration();
+var _startDate;
+var _endDate;
+bool _startGame = false;
+bool _abandoned = false;
+var student_json;
 
 class GameThreeMain extends StatefulWidget {
-  GameThreeMain({Key? key}) : super(key: key);
+  String student;
+  GameThreeMain(this.student, {Key? key}) : super(key: key);
 
   @override
   State<GameThreeMain> createState() => _GameThreeMainState();
@@ -24,17 +37,33 @@ class _GameThreeMainState extends State<GameThreeMain> {
   @override
   void initState() {
     super.initState();
+    _startDate = new DateTime.now();
     _game.initGame();
   }
 
   @override
   Widget build(BuildContext context) {
+    student_json = json.decode(widget.student);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Constants.APP_BAR_ORANGE,
         title: Text("Memoriza las cartas"),
         elevation: 0,
         centerTitle: true,
+        leading: BackButton(
+          onPressed: (() async {
+            _abandoned = true;
+            if (_startGame) {
+              _endDate = DateTime.now();
+              _totalTime = _endDate.difference(_startDate);
+              print(
+                  'Tiempo total: ${_totalTime.inSeconds} end date: ${_endDate} - startDate: ${_startDate}');
+              await _sendToServer();
+              _startGame = false;
+            }
+            Navigator.of(context).pop();
+          }),
+        ),
       ),
       backgroundColor: Constants.BTN_RED,
       body: Column(
@@ -63,6 +92,7 @@ class _GameThreeMainState extends State<GameThreeMain> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
+                        _startGame = true;
                         print(_game.matchCheck);
                         setState(() {
                           //incrementing the clicks
@@ -95,6 +125,9 @@ class _GameThreeMainState extends State<GameThreeMain> {
                           }
                         }
                         if (score == 400){
+                          _endDate = DateTime.now();
+                          _totalTime = _endDate.difference(_startDate);
+                          _abandoned = false;
                           showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -120,13 +153,14 @@ class _GameThreeMainState extends State<GameThreeMain> {
                                               TextStyle(color: Constants.BLACK),
                                         ),
                                         color: Constants.BTN_GREEN,
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
+                                        onPressed: () async {
+                                          await _sendToServer();
                                           setState(() {
                                             _game.initGame();
                                             score = 0;
                                             tries = 0;
                                           });
+                                          Navigator.of(context).pop();
                                         },
                                       ),
                                       FlatButton(
@@ -140,7 +174,8 @@ class _GameThreeMainState extends State<GameThreeMain> {
                                         ),
                                         //color: Constants.BUTTONS_COLOR,
                                         color: Constants.BTN_RED,
-                                        onPressed: () {
+                                        onPressed: () async {
+                                          await _sendToServer();
                                           setState(() {
                                             Navigator.of(context).pop();
                                             Navigator.of(context).pop();
@@ -169,4 +204,21 @@ class _GameThreeMainState extends State<GameThreeMain> {
       ),
     );
   }
+  Future<void> _sendToServer() async {
+  var dateNow = DateFormat('yyyy-MM-dd KK:mm:ss').format(DateTime.now());
+  ScoreModel scoreData = new ScoreModel();
+  scoreData.date = dateNow.toString();
+  scoreData.game = "game3";
+  scoreData.score = score;
+  scoreData.time = _totalTime.inSeconds.toString();
+  scoreData.username = student_json['username'];
+  scoreData.abandoned = _abandoned;
+
+  FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
+    CollectionReference reference;
+    reference = FirebaseFirestore.instance.collection("puntajes");
+    await reference.add(scoreData.toJson());
+  });
 }
+}
+

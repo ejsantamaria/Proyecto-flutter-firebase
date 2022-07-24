@@ -92,7 +92,7 @@ class _MainPageState extends State<MainPage> {
                         BorderRadius.circular(Constants.BORDER_RADIOUS)),
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => GameThreeMain()));
+                      MaterialPageRoute(builder: (context) => GameThreeMain(widget.student)));
                 },
                 child: Text(
                   "Juego 3",
