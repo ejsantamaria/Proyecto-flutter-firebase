@@ -4,25 +4,36 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/games/game1/models/TileModel.dart';
 import 'package:frontend/games/game1/data/data.dart';
+import 'package:frontend/models/scoreModel.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
+import 'package:intl/intl.dart';
 
+const maxPoints = 100; //800
+Duration _totalTime = new Duration();
+var _startDate;
+var _endDate;
+bool _startGame = false;
+bool _abandoned = false;
 
-class GameOneMenu extends StatefulWidget {
+class GameOneMain extends StatefulWidget {
   String student;
-  GameOneMenu(this.student, {Key? key}) : super(key: key);
+  GameOneMain(this.student, {Key? key}) : super(key: key);
   @override
-  State<GameOneMenu> createState() => _GameOneMenuState();
+  State<GameOneMain> createState() => _GameOneMainState();
 }
 
-class _GameOneMenuState extends State<GameOneMenu> {
+class _GameOneMainState extends State<GameOneMain> {
   List<TileModel> gridViewTiles = [];
   List<TileModel> questionPairs = [];
 
-  var student_json={};
+  var student_json;
+  
+  
 
   @override
   void initState() {
     // TODO: implement initState
+    _startDate = new DateTime.now();
     super.initState();
     reStart();
   }
@@ -30,7 +41,6 @@ class _GameOneMenuState extends State<GameOneMenu> {
   void reStart() {
     myPairs = getPairs();
     myPairs.shuffle();
-
     gridViewTiles = myPairs;
     Future.delayed(const Duration(seconds: 5), () {
 // Here you can write your code
@@ -46,11 +56,9 @@ class _GameOneMenuState extends State<GameOneMenu> {
 
   @override
   Widget build(BuildContext context) {
-
     //Get a student json from mainPageStudent
     student_json = json.decode(widget.student);
-    print("Informacion de estudiante: "+student_json.toString());
-
+    print("Informacion de estudiante: " + student_json.toString());
 
     return Scaffold(
       backgroundColor: Constants.BACKGROUND_YELLOW,
@@ -58,8 +66,17 @@ class _GameOneMenuState extends State<GameOneMenu> {
         backgroundColor: Constants.APP_BAR_ORANGE,
         title: Text("Memoriza las cartas"),
         leading: BackButton(
-          onPressed: () {
+          onPressed: () async {
+            _abandoned = true;
+            if(_startGame){
+              _endDate = DateTime.now();
+              _totalTime = _endDate.difference(_startDate);
+              print('Tiempo total: ${_totalTime.inSeconds} end date: ${_endDate} - startDate: ${_startDate}');
+              await _sendToServer();
+              _startGame = false;
+            }
             setState(() {
+              _startGame = false;
               points = 0;
               reStart();
             });
@@ -77,7 +94,7 @@ class _GameOneMenuState extends State<GameOneMenu> {
               SizedBox(
                 height: 40,
               ),
-              points != 800
+              points != maxPoints
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
@@ -98,7 +115,7 @@ class _GameOneMenuState extends State<GameOneMenu> {
               SizedBox(
                 height: 20,
               ),
-              points != 800
+              points != maxPoints
                   ? GridView(
                       shrinkWrap: true,
                       //physics: ClampingScrollPhysics(),
@@ -115,7 +132,6 @@ class _GameOneMenuState extends State<GameOneMenu> {
                       }),
                     )
                   : AlertDialog(
-                    
                       title: const Text('Fin del juego',
                           textAlign: TextAlign.center),
                       content: SingleChildScrollView(
@@ -139,12 +155,14 @@ class _GameOneMenuState extends State<GameOneMenu> {
                             style: TextStyle(color: Constants.BLACK),
                           ),
                           color: Constants.BTN_GREEN,
-                          onPressed: () {
+                          onPressed: () async {
+                            _endDate = DateTime.now();
+                            _totalTime = _endDate.difference(_startDate);
+                            await _sendToServer();
                             setState(() {
                               points = 0;
                               reStart();
                             });
-                            sendToServer();
                           },
                         ),
                         FlatButton(
@@ -157,13 +175,15 @@ class _GameOneMenuState extends State<GameOneMenu> {
                             style: TextStyle(color: Constants.BLACK),
                           ),
                           //color: Constants.BUTTONS_COLOR,
-                          color:Constants.BTN_RED,
-                          onPressed: () {
+                          color: Constants.BTN_RED,
+                          onPressed: () async {
+                            _endDate = DateTime.now();
+                            _totalTime = _endDate.difference(_startDate);
+                            await _sendToServer();
                             setState(() {
                               points = 0;
                               reStart();
                               Navigator.of(context).pop();
-                              sendToServer();
                             });
                           },
                         ),
@@ -176,28 +196,20 @@ class _GameOneMenuState extends State<GameOneMenu> {
     );
   }
 
-  sendToServer() async {
-    var now = new DateTime.now().toString();
-    var score_day = {
-      "days": {
-        "$now":{
-          "game1:" : points.toString()
-        }
-      },
-
-      };
+  Future<void> _sendToServer() async {
+    var dateNow = DateFormat('yyyy-MM-dd KK:mm:ss').format(DateTime.now());
+    ScoreModel scoreData = new ScoreModel();
+    scoreData.date = dateNow.toString();
+    scoreData.game = "game1";
+    scoreData.score = points;
+    scoreData.time = _totalTime.inSeconds.toString();
+    scoreData.username = student_json['username'];
+    scoreData.abandoned = _abandoned;
+    
     FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
-      CollectionReference reference =
-          FirebaseFirestore.instance.collection("usuario");
-      QuerySnapshot pd = await reference.get();
-      String docUid = "";
-      for (var doc in pd.docs) {
-        if (student_json['username'] == doc.get("username").toString()) {
-          docUid = doc.id;
-          break;
-        }
-      }
-      await reference.doc(docUid).update(score_day);
+      CollectionReference reference;
+      reference = FirebaseFirestore.instance.collection("puntajes");
+      await reference.add(scoreData.toJson());
     });
   }
 }
@@ -205,7 +217,7 @@ class _GameOneMenuState extends State<GameOneMenu> {
 class Tile extends StatefulWidget {
   String imagePathUrl;
   int tileIndex;
-  _GameOneMenuState parent;
+  _GameOneMainState parent;
 
   Tile(
       {required this.imagePathUrl,
@@ -246,6 +258,11 @@ class _TileState extends State<Tile> {
                 });
                 selectedTile = "";
               });
+              if (points >= maxPoints){
+                _endDate = DateTime.now();
+                _totalTime = _endDate.difference(_startDate);
+                print('Tiempo total: ${_totalTime.inSeconds} end date: ${_endDate} - startDate: ${_startDate}');
+              }
             } else {
               print(selectedTile +
                   " thishis " +
@@ -274,6 +291,7 @@ class _TileState extends State<Tile> {
 
             print(selectedTile);
             print(selectedIndex);
+            _startGame = true;
           }
         }
       },
@@ -291,4 +309,3 @@ class _TileState extends State<Tile> {
     );
   }
 }
-

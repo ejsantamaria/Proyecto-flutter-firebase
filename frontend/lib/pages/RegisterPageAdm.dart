@@ -600,7 +600,7 @@ class _RegisterPageState extends State<RegisterPageAdm> {
         .then((data) => {
               data.docs.forEach((result) {
                 rol = result.get("Rol");
-                if (rol == "Motorizado") {
+                if (rol == "Admin") {
                   email = result.get("email");
                   emailBD.add(email.toString());
                 }

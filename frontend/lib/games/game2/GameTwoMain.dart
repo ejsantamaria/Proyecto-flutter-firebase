@@ -1,16 +1,26 @@
-import 'dart:developer';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/games/game2/data/words.dart';
 import 'package:frontend/games/game2/model/game.dart';
 import 'package:frontend/games/game2/ui/widget/figure_image.dart';
 import 'package:frontend/games/game2/ui/widget/letter.dart';
-import 'package:frontend/games/game2/ui/colors.dart';
+import 'package:frontend/models/scoreModel.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
+import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:word_search/word_search.dart';
 
+Duration _totalTime = new Duration();
+var _startDate;
+var _endDate;
+bool _startGame = false;
+bool _abandoned = false;
+var student_json;
+
 class GameTwoMain extends StatefulWidget {
-  GameTwoMain({Key? key}) : super(key: key);
+  String student;
+  GameTwoMain(this.student, {Key? key}) : super(key: key);
 
   @override
   State<GameTwoMain> createState() => _GameTwoMainState();
@@ -20,6 +30,7 @@ class _GameTwoMainState extends State<GameTwoMain> {
   @override
   void initState() {
     super.initState();
+    _startDate = new DateTime.now();
     Game.score = 6;
     Game.tries = 0;
     Game.selectedChar = [];
@@ -75,6 +86,7 @@ class _GameTwoMainState extends State<GameTwoMain> {
 
   @override
   Widget build(BuildContext context) {
+    student_json = json.decode(widget.student);
     return Scaffold(
       backgroundColor: Constants.BACKGROUND_YELLOW,
       appBar: AppBar(
@@ -82,6 +94,27 @@ class _GameTwoMainState extends State<GameTwoMain> {
         elevation: 0,
         centerTitle: true,
         backgroundColor: Constants.APP_BAR_ORANGE,
+        leading: BackButton(
+          onPressed: (() async {
+            _abandoned = true;
+            if (_startGame) {
+              _endDate = DateTime.now();
+              _totalTime = _endDate.difference(_startDate);
+              print(
+                  'Tiempo total: ${_totalTime.inSeconds} end date: ${_endDate} - startDate: ${_startDate}');
+              await _sendToServer();
+              _startGame = false;
+            }
+            /*setState(() {
+              Game.score = 6;
+              Game.tries = 0;
+              Game.selectedChar = [];
+              correct_selected = "";
+              word = words();
+            });*/
+            Navigator.of(context).pop();
+          }),
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,6 +171,7 @@ class _GameTwoMainState extends State<GameTwoMain> {
                   onPressed: Game.selectedChar.contains(e)
                       ? null // we first check that we didn't selected the button before
                       : () {
+                          _startGame = true;
                           setState(() {
                             Game.selectedChar.add(e);
                             print(Game.selectedChar);
@@ -150,7 +184,10 @@ class _GameTwoMainState extends State<GameTwoMain> {
                             }
                           });
                           //
-                          if (Game.score == 0) {
+                          if (Game.score <= 0) {
+                            _endDate = DateTime.now();
+                            _totalTime = _endDate.difference(_startDate);
+                            _abandoned = false;
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -176,13 +213,15 @@ class _GameTwoMainState extends State<GameTwoMain> {
                                               TextStyle(color: Constants.BLACK),
                                         ),
                                         color: Constants.BTN_GREEN,
-                                        onPressed: () {
+                                        onPressed: () async {
+                                          await _sendToServer();
                                           setState(() {
                                             Game.score = 6;
                                             Game.tries = 0;
                                             Game.selectedChar = [];
                                             correct_selected = "";
                                             word = words();
+                                            _startGame = false;
                                           });
                                           Navigator.of(context).pop();
                                         },
@@ -198,21 +237,27 @@ class _GameTwoMainState extends State<GameTwoMain> {
                                         ),
                                         //color: Constants.BUTTONS_COLOR,
                                         color: Constants.BTN_RED,
-                                        onPressed: () {
+                                        onPressed: () async {
+                                          await _sendToServer();
                                           setState(() {
                                             Game.score = 6;
                                             Game.tries = 0;
                                             Game.selectedChar = [];
                                             correct_selected = "";
-                                            Navigator.of(context).pop();
-                                            Navigator.of(context).pop();
+                                            word = words();
+                                            _startGame = false;
                                           });
+                                          Navigator.of(context).pop();
+                                          Navigator.of(context).pop();
                                         },
                                       ),
                                     ],
                                   );
                                 });
-                          } else if(correct_selected.length == word.length) {
+                          } else if (correct_selected.length == word.length) {
+                            _abandoned = false;
+                            _endDate = DateTime.now();
+                            _totalTime = _endDate.difference(_startDate);
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -222,7 +267,8 @@ class _GameTwoMainState extends State<GameTwoMain> {
                                     content: SingleChildScrollView(
                                       child: ListBody(
                                         children: const <Widget>[
-                                          Text('¡Buen trabajo!, has encontrado la palabra.'),
+                                          Text(
+                                              '¡Buen trabajo!, has encontrado la palabra.'),
                                           Text('Ahora, ¿Qué quieres hacer?.'),
                                         ],
                                       ),
@@ -238,13 +284,15 @@ class _GameTwoMainState extends State<GameTwoMain> {
                                               TextStyle(color: Constants.BLACK),
                                         ),
                                         color: Constants.BTN_GREEN,
-                                        onPressed: () {
+                                        onPressed: () async {
+                                          await _sendToServer();
                                           setState(() {
                                             Game.score = 6;
                                             Game.tries = 0;
                                             Game.selectedChar = [];
                                             correct_selected = "";
                                             word = words();
+                                            _startGame = false;
                                           });
                                           Navigator.of(context).pop();
                                         },
@@ -260,12 +308,15 @@ class _GameTwoMainState extends State<GameTwoMain> {
                                         ),
                                         //color: Constants.BUTTONS_COLOR,
                                         color: Constants.BTN_RED,
-                                        onPressed: () {
+                                        onPressed: () async {
+                                          await _sendToServer();
                                           setState(() {
                                             Game.score = 6;
                                             Game.tries = 0;
                                             Game.selectedChar = [];
                                             correct_selected = "";
+                                            word = words();
+                                            _startGame = false;
                                             Navigator.of(context).pop();
                                             Navigator.of(context).pop();
                                           });
@@ -294,60 +345,25 @@ class _GameTwoMainState extends State<GameTwoMain> {
               }).toList(),
             ),
           ),
-          /*Game.tries == 6 ?
-          AlertDialog(
-            title: const Text('Fin del juego',
-                          textAlign: TextAlign.center),
-                      content: SingleChildScrollView(
-                        child: ListBody(
-                          children: const <Widget>[
-                            Text('Intentos agotados',
-                                textAlign: TextAlign.center),
-                            Text('Ahora que quieres hacer?',
-                                textAlign: TextAlign.center),
-                          ],
-                        ),
-                      ),
-                      actions: <Widget>[
-                        FlatButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  Constants.BORDER_RADIOUS)),
-                          child: Text(
-                            'Volver a jugar',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Constants.BLACK),
-                          ),
-                          color: Constants.BTN_GREEN,
-                          onPressed: () {
-                            setState(() {
-                              Game.tries = 0;
-                              GameTwoMain();
-                            });
-                          },
-                        ),
-                        FlatButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  Constants.BORDER_RADIOUS)),
-                          child: Text(
-                            'Salir del juego',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Constants.BLACK),
-                          ),
-                          //color: Constants.BUTTONS_COLOR,
-                          color:Constants.BTN_RED,
-                          onPressed: () {
-                            setState(() {
-                              Game.tries = 0;
-                              Navigator.of(context).pop();
-                            });
-                          },
-                        ),
-                      ],
-          ): Game.score >= 6 ? AlertDialog(): AlertDialog()*/
         ],
       ),
     );
   }
+}
+
+Future<void> _sendToServer() async {
+  var dateNow = DateFormat('yyyy-MM-dd KK:mm:ss').format(DateTime.now());
+  ScoreModel scoreData = new ScoreModel();
+  scoreData.date = dateNow.toString();
+  scoreData.game = "game2";
+  scoreData.score = Game.score.toInt();
+  scoreData.time = _totalTime.inSeconds.toString();
+  scoreData.username = student_json['username'];
+  scoreData.abandoned = _abandoned;
+
+  FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
+    CollectionReference reference;
+    reference = FirebaseFirestore.instance.collection("puntajes");
+    await reference.add(scoreData.toJson());
+  });
 }

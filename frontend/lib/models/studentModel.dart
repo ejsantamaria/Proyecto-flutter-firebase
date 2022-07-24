@@ -1,12 +1,5 @@
-// To parse this JSON data, do
-//
-//     final motocycle = motocycleFromJson(jsonString);
-
 import 'dart:convert';
-/*
-User motocycleFromJson(String str) => User.fromJson(json.decode(str));
 
-String motocycleToJson(User data) => json.encode(data.toJson());*/
 UserApp userFromJson(String str) => UserApp.fromJson(json.decode(str));
 
 String userToJson(UserApp data) => json.encode(data.toJson());
