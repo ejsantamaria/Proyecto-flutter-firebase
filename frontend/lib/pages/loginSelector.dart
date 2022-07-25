@@ -21,7 +21,16 @@ class _LoginSelectorState extends State<LoginSelector> {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          
+          Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: Center(
+                child: Text('¿Quién eres?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Constants.TEXT_COLOR,
+                        fontSize: 40,
+                        fontFamily: 'TitanOne')),
+              )),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
@@ -40,7 +49,7 @@ class _LoginSelectorState extends State<LoginSelector> {
                 },
                 child: Text(
                   "Tutor",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white,fontFamily: 'TitanOne',fontSize: 30),
                 ),
               ),
             ),
@@ -61,7 +70,7 @@ class _LoginSelectorState extends State<LoginSelector> {
                 },
                 child: Text(
                   "Estudiante",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white,fontFamily: 'TitanOne',fontSize: 30),
                 ),
               ),
             ),

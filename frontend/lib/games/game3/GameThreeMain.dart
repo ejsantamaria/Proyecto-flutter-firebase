@@ -48,6 +48,39 @@ class _GameThreeMainState extends State<GameThreeMain> {
     student_json = json.decode(widget.student);
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+                  icon: Icon(Icons.error_sharp),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: Text('Recuerda',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Constants.BLACK,fontFamily: 'TitanOne')),
+                              content: Text(
+                                  'En este juego debes memorizar las cartas y encontrar sus pares correspondientes, ¡Suerte!'),
+                              actions: <Widget>[
+                                FlatButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          Constants.BORDER_RADIOUS)),
+                                  child: Text(
+                                    'Ok',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Constants.BLACK),
+                                  ),
+                                  color: Constants.BUTTONS_COLOR,
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            ));
+                  },
+                  tooltip: 'Ayuda',
+                ),
+        ],
         backgroundColor: Constants.BUTTONS_COLOR,
         title: Text("Memoriza las cartas",style: TextStyle(fontFamily: 'TitanOne')),
         elevation: 0,

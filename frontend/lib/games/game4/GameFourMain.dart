@@ -44,10 +44,44 @@ class _GameFourMainState extends State<GameFourMain> {
     double boardWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
+          actions: <Widget>[
+          IconButton(
+                  icon: Icon(Icons.error_sharp),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: Text('Recuerda',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Constants.BLACK,fontFamily: 'TitanOne')),
+                              content: Text(
+                                  'Este juego, juégalo con un amigo y que gane el mejor, ¡Suerte!'),
+                              actions: <Widget>[
+                                FlatButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          Constants.BORDER_RADIOUS)),
+                                  child: Text(
+                                    'Ok',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Constants.BLACK),
+                                  ),
+                                  color: Constants.BUTTONS_COLOR,
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            ));
+                  },
+                  tooltip: 'Ayuda',
+                ),
+        ],
           backgroundColor: Constants.BUTTONS_COLOR,
-          title: Text("Tres en raya"),
+          title: Text("Tres en raya", style: TextStyle(
+            fontFamily: 'TitanOne'
+          ),),
           elevation: 0,
-          centerTitle: true,
         ),
         backgroundColor: Constants.BACKGROUNDS,
         body: Column(
@@ -58,7 +92,8 @@ class _GameFourMainState extends State<GameFourMain> {
               "Es el turno de ${lastValue}, ¡Suerte!",
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 30,
+                fontFamily: 'TitanOne',
+                fontSize: 25,
               ),
             ),
             SizedBox(

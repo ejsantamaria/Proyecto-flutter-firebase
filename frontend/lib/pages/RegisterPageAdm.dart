@@ -72,7 +72,7 @@ class _RegisterPageState extends State<RegisterPageAdm> {
       child: Scaffold(
         backgroundColor: Constants.BACKGROUNDS,
         appBar: AppBar(
-          title: Text("Registrar nuevo administrador"),
+          title: Text("Registrar nuevo tutor"),
           centerTitle: true,
           backgroundColor: Constants.BUTTONS_COLOR,
         ),
@@ -114,7 +114,7 @@ class _RegisterPageState extends State<RegisterPageAdm> {
                         )
                       },
                       child: Text(
-                        "Cancelar admin",
+                        "Cancelar",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),

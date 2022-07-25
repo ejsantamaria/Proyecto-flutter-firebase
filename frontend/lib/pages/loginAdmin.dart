@@ -188,13 +188,6 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
-                        /*validator: (value) {
-                          if (value!.isNotEmpty) {
-                            return emailValidation(value);
-                          } else {
-                            return 'Por favor ingrese su correo';
-                          }
-                        },*/
                       ),
                     ),
                   ],
@@ -361,7 +354,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                     mainProvider.token = user.uid;
                     mainProvider.adm = true;
                     ScaffoldSnackbar.of(context)
-                        .show('${user.email} Bienvenido Administrador');
+                        .show('${user.email} Bienvenido Tutor');
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => AdminPage(user.email)),
@@ -372,7 +365,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                         builder: (context) => AlertDialog(
                               title: Text('Error al iniciar sesión'),
                               content: Text(
-                                  'Porfavor ingrese con una cuenta de Administrador'),
+                                  'Porfavor ingrese con una cuenta de Tutor'),
                               actions: <Widget>[
                                 FlatButton(
                                   child: Text('Ok'),

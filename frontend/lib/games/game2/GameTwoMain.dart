@@ -84,9 +84,65 @@ class _GameTwoMainState extends State<GameTwoMain> {
   @override
   Widget build(BuildContext context) {
     student_json = json.decode(widget.student);
+    /* "naranja".toUpperCase(),
+    "pera".toUpperCase(),
+    "uva".toUpperCase(),
+    "mora"*/
+    var track="";
+    switch (word){
+      case "NARANJA":
+        track = "Es una fruta cítrica, dulce, amarilla y redonda.";
+        break;
+      case "PERA":
+        track = "Es una fruta verde, dulce y tiene la forma de un 8.";
+        break;
+      case "UVA":
+        track = "Es una fruta morada, pequeña, dulce y redonda.";
+      break;
+      case "MORA":
+        track = "Blanco fue mi nacimiento, verde mi niñez, roja mi madurez y negra mi vejez.";
+        break;
+      default:
+        track = "No se pudo encontrar la fruta";
+        break;    
+    }
+    print("Acertijo fruta"+track);
     return Scaffold(
       backgroundColor: Constants.BACKGROUNDS,
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+                  icon: Icon(Icons.error_sharp),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: Text('Recuerda',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Constants.BLACK,fontFamily: 'TitanOne')),
+                              content: Text(
+                                  'En este juego debes encontrar la palabra oculta.\nPista: '+track),
+                              actions: <Widget>[
+                                FlatButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          Constants.BORDER_RADIOUS)),
+                                  child: Text(
+                                    'Ok',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Constants.BLACK),
+                                  ),
+                                  color: Constants.BUTTONS_COLOR,
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            ));
+                  },
+                  tooltip: 'Ayuda',
+                ),
+        ],
         title: Text(
           "Adivina la palabra",
           style: TextStyle(fontFamily: 'TitanOne'),

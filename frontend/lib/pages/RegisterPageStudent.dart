@@ -975,8 +975,9 @@ class _RegisterPageState extends State<RegisterPageStudent> {
   }
 
   Future<void> _sendToServer(bool admin) async {
+    print("Entre a en el envio del formulario estudiante, dato del administrador" + widget.emailAdmin.toString());
     _username = await createUsername(name.text, secondname.text, surname.text);
-    String adminPhone = getPhoneAdmin(widget.emailAdmin);
+    String adminPhone = await getPhoneAdmin(widget.emailAdmin).toString();
     FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference;
       if (admin) {
@@ -1072,7 +1073,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
     var phoneAdmin = "";
     await FirebaseFirestore.instance
         .collection('usuarios')
-        .where("Rol", isEqualTo: "Admin")
+        .where("email", isEqualTo: email)
         .get()
         .then((value) => {
               value.docs.forEach((result) {

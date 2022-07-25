@@ -74,7 +74,7 @@ class _MainPageState extends State<MainPage> {
                 style: Theme.of(context).textTheme.headline3),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 75),
+            padding: const EdgeInsets.only(bottom: 50),
             child: Container(
               width: 100,
               height: 100,
@@ -82,8 +82,16 @@ class _MainPageState extends State<MainPage> {
                   borderRadius: BorderRadius.circular(100),
                   color: Constants.BUTTONS_COLOR),
               child: ClipOval(
-                  child: Icon(Icons.person, color: Constants.WHITE, size: 50)),
+                  child: Icon(Icons.videogame_asset, color: Constants.WHITE, size: 50)),
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Text("¿Qué quieres jugar?",
+                style: TextStyle(
+                  fontFamily: 'TitanOne',
+                  fontSize: 22,
+                )),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -175,7 +183,7 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
           ),
-          Padding(
+          /*Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
               child: MaterialButton(
@@ -198,7 +206,7 @@ class _MainPageState extends State<MainPage> {
                 ),
               ),
             ),
-          ),
+          ),*/
         ],
       )),
     );
