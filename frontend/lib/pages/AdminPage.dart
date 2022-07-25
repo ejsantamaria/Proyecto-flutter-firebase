@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/list/SchoolList.dart';
+import 'package:frontend/list/StudentList.dart';
 import 'package:frontend/pages/RegisterPageAdm.dart';
 import 'package:frontend/pages/RegisterPageStudent.dart';
 import 'package:frontend/pages/RegisterSchool.dart';
@@ -6,8 +8,9 @@ import 'package:frontend/pages/exitMenu.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
 
 class AdminPage extends StatefulWidget {
-  const AdminPage({Key? key});
-
+  String? emailAdmin;
+  AdminPage(this.emailAdmin, {Key? key}) : super(key: key);
+  //AdminPage(this.emailAdmin, {Key? key});
   @override
   State<AdminPage> createState() => _AdminPageState();
 }
@@ -21,7 +24,7 @@ class _AdminPageState extends State<AdminPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: ExitMenu(),
+      drawer: ExitMenu("Tutor/a"),
       backgroundColor: Constants.BACKGROUNDS,
       appBar: AppBar(
           centerTitle: true,
@@ -70,6 +73,7 @@ class _AdminPageState extends State<AdminPage> {
                         MaterialPageRoute(
                             builder: (context) => RegisterPageStudent(
                                   adm: true,
+                                  emailAdmin: widget.emailAdmin,
                                 )));
                   },
                   child: Text("Registrar estudiantes",
@@ -86,17 +90,15 @@ class _AdminPageState extends State<AdminPage> {
                       borderRadius:
                           BorderRadius.circular(Constants.BORDER_RADIOUS)),
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("Se esta trabajando :)"),
-                        );
-                      },
-                    );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => StudentList(
+                                  admin: true,
+                                )));
                   },
                   child: Text(
-                    "Ver estudiantes registrados",
+                    "Ver estudiantes registrados y puntajes",
                     style: TextStyle(color: Constants.WHITE),
                   ),
                 ),
@@ -114,7 +116,7 @@ class _AdminPageState extends State<AdminPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => RegisterSchool()));
+                            builder: (context) => RegisterSchool(emailAdmin: widget.emailAdmin,)));
                   },
                   child: Text("Registrar unidad educativa",
                       style: TextStyle(color: Constants.WHITE)),
@@ -130,14 +132,10 @@ class _AdminPageState extends State<AdminPage> {
                       borderRadius:
                           BorderRadius.circular(Constants.BORDER_RADIOUS)),
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("Se esta trabajando :)"),
-                        );
-                      },
-                    );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SchoolList()));
                   },
                   child: Text(
                     "Ver unidades educativas registradas",

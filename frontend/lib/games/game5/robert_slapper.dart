@@ -19,7 +19,6 @@ class RobertSlapper extends BaseGame with TapDetector, HasCollidables {
 
   @override
   Future<void> onLoad() async {
-    FlameAudio.bgm.initialize();
     camera.defaultShakeIntensity = 20;
     ball = Ball(
       game: this,
@@ -50,14 +49,10 @@ class RobertSlapper extends BaseGame with TapDetector, HasCollidables {
     final initialPlatform = ballLineSpawner.createBallLine();
     add(initialPlatform);
     ballLineSpawner.lines.add(initialPlatform);
-    if (!FlameAudio.bgm.isPlaying) {
-      FlameAudio.bgm.play('Automation.mp3', volume: 0.2);
-    }
   }
 
   @override
   void onDetach() {
-    FlameAudio.bgm.dispose();
     super.onDetach();
   }
 

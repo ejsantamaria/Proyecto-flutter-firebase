@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-ScoreModel userFromJson(String str) => ScoreModel.fromJson(json.decode(str));
+ScoreModel scoreFromJson(String str) => ScoreModel.fromJson(json.decode(str));
 
 String scoreToJson(ScoreModel data) => json.encode(data.toJson());
 
@@ -27,7 +27,7 @@ class ScoreModel {
         score: json["score"],
         time: json["time"],
         username: json["username"],
-        abandoned: json["username"],
+        abandoned: json["abandoned"],
       );
 
   Map<String, dynamic> toJson() => {

@@ -338,7 +338,6 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
     super.dispose();
   }
 
-
   Future<void> _signInWithEmailAndPassword() async {
     final mainProvider = Provider.of<MainProvider>(context, listen: false);
     try {
@@ -363,23 +362,26 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                     mainProvider.adm = true;
                     ScaffoldSnackbar.of(context)
                         .show('${user.email} Bienvenido Administrador');
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => AdminPage()),);
-                  } else if (sections == "Usuario") {
-                    /*dev.log(result.data().toString(),
-                        name: "Doc data from Student");*/
-                    mainProvider.motocycle = json.encode(result.data());
-
-                    /*dev.log(mainProvider.motocycle,
-                        name: "Main Provider Student - LoginPage");*/
-                    mainProvider.token = user.uid;
-                    mainProvider.adm = false;
-
-                    motocycleRol(mainProvider.motocycle);
-                    ScaffoldSnackbar.of(context)
-                        .show('${user.email} Bienvenido Usuario');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AdminPage(user.email)),
+                    );
                   } else {
-                    ScaffoldSnackbar.of(context)
-                        .show('${user.email} Bienvenido Usuario');
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: Text('Error al iniciar sesión'),
+                              content: Text(
+                                  'Porfavor ingrese con una cuenta de Administrador'),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text('Ok'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            ));
                   }
                 })
               });
@@ -402,17 +404,6 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                 ],
               ));
     }
-  }
-
-//A TRAVÉS DEL UID HACER UNA CONSULTA Y PASAR COMO PARÁMETRO EL
-  Future<dynamic> motocycleRol(String motocycle) {
-    return Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => MainPage(
-                  titulo: "Usuario",
-                  student: motocycle,
-                )));
   }
 }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/pages/loginStudent.dart';
 import 'package:frontend/pages/loginAdmin.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
-
+import 'package:connection_status_bar/connection_status_bar.dart';
 import 'package:frontend/pages/RegisterPageStudent.dart';
 
 class LoginSelector extends StatefulWidget {
@@ -19,7 +19,7 @@ class _LoginSelectorState extends State<LoginSelector> {
       backgroundColor: Constants.BACKGROUNDS,
       body: Container(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           
           Padding(

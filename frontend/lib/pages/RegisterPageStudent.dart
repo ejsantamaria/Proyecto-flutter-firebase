@@ -14,8 +14,9 @@ import 'package:frontend/utils/constants.dart' as Constants;
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class RegisterPageStudent extends StatefulWidget {
-  const RegisterPageStudent({Key? key, required this.adm}) : super(key: key);
+  const RegisterPageStudent({Key? key, required this.adm, required this.emailAdmin}) : super(key: key);
   final bool adm;
+  final String ?emailAdmin;
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
@@ -30,18 +31,14 @@ class _RegisterPageState extends State<RegisterPageStudent> {
   bool once_get_schools = false;
 
   final List<String> items_aux = ['aux', 'aux', 'qweqweqewe', 'asdads'];
-  //String usernameGenerator = "";
-  //String usergenerated = "";
   int currentStep = 0;
   File? image;
   String? urlImagen;
   late String us = "";
-  // ignore: unused_field
   late bool? _success;
   late int cont;
   late bool _visible = true;
   late bool _valid = false;
-  // ignore: unused_field
   late String _userEmail = '';
   late String _dropDownValue = "";
 
@@ -126,12 +123,12 @@ class _RegisterPageState extends State<RegisterPageStudent> {
       child: Scaffold(
         backgroundColor: Constants.BACKGROUNDS,
         appBar: AppBar(
-          backgroundColor: Constants.WHITE,
+          backgroundColor: Constants.BUTTONS_COLOR,
           title: Text(
               (widget.adm)
                   ? "Registrar nuevo usuario"
                   : "Registrar nuevo usuario",
-              style: TextStyle(fontFamily: 'TitanOne')),
+              style: TextStyle()),
           centerTitle: true,
         ),
         body: Theme(
@@ -259,7 +256,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute<Null>(
                                           builder: (BuildContext contex) {
-                                    return AdminPage();
+                                    return AdminPage(widget.emailAdmin);
                                     //return new VerifyScreen();
                                   }), (Route<dynamic> route) => false);
                                 })
@@ -979,6 +976,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
 
   Future<void> _sendToServer(bool admin) async {
     _username = await createUsername(name.text, secondname.text, surname.text);
+    String adminPhone = getPhoneAdmin(widget.emailAdmin);
     FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference;
       if (admin) {
@@ -996,15 +994,9 @@ class _RegisterPageState extends State<RegisterPageStudent> {
           "escuela": school.text.trim(),
           "grade": grade.text.trim(),
           "gparallel": gparallel.text.trim(),
-          "score":{
-            "game1":0,
-            "game2":0,
-            "game3":0,
-            "game4":0,
-            "game5":0,
-          },
           "username": _username.trim(),
-          "secondname": secondname.text.trim()
+          "secondname": secondname.text.trim(),
+          "tutorPhone" :  adminPhone,
         });
       } else {
         reference = FirebaseFirestore.instance.collection('usuarios');
@@ -1021,9 +1013,9 @@ class _RegisterPageState extends State<RegisterPageStudent> {
           "escuela": school.text.trim(),
           "grade": grade.text.trim(),
           "gparallel": gparallel.text.trim(),
-          "score": 0,
           "username": _username.trim(),
-          "secondname": secondname.text.trim()
+          "secondname": secondname.text.trim(),
+          "tutorPhone" :  adminPhone,
         });
       }
     });
@@ -1074,6 +1066,20 @@ class _RegisterPageState extends State<RegisterPageStudent> {
               })
             });
     await getSchoolsDB();
+  }
+
+  getPhoneAdmin(String? email) async{
+    var phoneAdmin = "";
+    await FirebaseFirestore.instance
+        .collection('usuarios')
+        .where("Rol", isEqualTo: "Admin")
+        .get()
+        .then((value) => {
+              value.docs.forEach((result) {
+                phoneAdmin = result.get("phone");
+              })
+            });
+    return phoneAdmin;
   }
 
   createUsername(String firstname, String secondname, String lastname) async {

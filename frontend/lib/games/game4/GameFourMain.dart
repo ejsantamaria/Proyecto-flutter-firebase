@@ -44,12 +44,12 @@ class _GameFourMainState extends State<GameFourMain> {
     double boardWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Constants.APP_BAR_ORANGE,
+          backgroundColor: Constants.BUTTONS_COLOR,
           title: Text("Tres en raya"),
           elevation: 0,
           centerTitle: true,
         ),
-        backgroundColor: Constants.BACKGROUND_YELLOW,
+        backgroundColor: Constants.BACKGROUNDS,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

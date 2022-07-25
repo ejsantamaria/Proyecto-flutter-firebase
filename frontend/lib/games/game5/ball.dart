@@ -55,7 +55,6 @@ class Ball extends SpriteComponent with Hitbox, Collidable {
         game.camera.shake();
         game.sessionManager.updateScore();
         collisionParticle(Colors.blue);
-        FlameAudio.play('impact.mp3', volume: 0.4);
         other.remove();
       }
       if (other is ScreenCollidable) {

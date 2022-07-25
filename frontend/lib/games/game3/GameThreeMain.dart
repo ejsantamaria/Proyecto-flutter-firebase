@@ -7,6 +7,7 @@ import 'package:frontend/models/scoreModel.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Duration _totalTime = new Duration();
 var _startDate;
@@ -14,6 +15,7 @@ var _endDate;
 bool _startGame = false;
 bool _abandoned = false;
 var student_json;
+String urlMessage = "";
 
 class GameThreeMain extends StatefulWidget {
   String student;
@@ -46,8 +48,8 @@ class _GameThreeMainState extends State<GameThreeMain> {
     student_json = json.decode(widget.student);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Constants.APP_BAR_ORANGE,
-        title: Text("Memoriza las cartas"),
+        backgroundColor: Constants.BUTTONS_COLOR,
+        title: Text("Memoriza las cartas",style: TextStyle(fontFamily: 'TitanOne')),
         elevation: 0,
         centerTitle: true,
         leading: BackButton(
@@ -65,7 +67,7 @@ class _GameThreeMainState extends State<GameThreeMain> {
           }),
         ),
       ),
-      backgroundColor: Constants.BTN_RED,
+      backgroundColor: Constants.BACKGROUNDS,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -124,15 +126,19 @@ class _GameThreeMainState extends State<GameThreeMain> {
                             });
                           }
                         }
-                        if (score == 400){
+                        if (score >= 400){
                           _endDate = DateTime.now();
                           _totalTime = _endDate.difference(_startDate);
                           _abandoned = false;
+                          urlMessage =
+                                "https://wa.me/593${student_json["tutorPhone"]}?text=Hola tutor!\nSoy ${student_json["name"]} ${student_json["surname"]}\n" + //${student_json["phone"]}
+                                    "Mi puntaje en el juego de encontrar las figuras, es ${score.toString()}ptos/ 400ptos\n" +
+                                    "En un tiempo total de ${_totalTime.inSeconds.toString()} segundos.";
                           showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: const Text('Fin del juego',
+                                    title: const Text('Fin del juego',style: TextStyle(fontFamily: 'TitanOne'),
                                         textAlign: TextAlign.center),
                                     content: SingleChildScrollView(
                                       child: ListBody(
@@ -180,6 +186,20 @@ class _GameThreeMainState extends State<GameThreeMain> {
                                             Navigator.of(context).pop();
                                             Navigator.of(context).pop();
                                           });
+                                        },
+                                      ),
+                                      FlatButton(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                Constants.BORDER_RADIOUS)),
+                                        child: Text(
+                                          'Compartir resultados',
+                                          style:
+                                              TextStyle(color: Constants.BLACK),
+                                        ),
+                                        color: Constants.BTN_GREEN,
+                                        onPressed: () async {
+                                          await launch(urlMessage);
                                         },
                                       ),
                                     ],

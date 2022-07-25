@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:frontend/pages/AdminPage.dart';
+import 'package:frontend/pages/loginAdmin.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -109,11 +110,11 @@ class _RegisterPageState extends State<RegisterPageAdm> {
                       onPressed: () => {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AdminPage()),
+                          MaterialPageRoute(builder: (context) => LoginPageAdmin()),
                         )
                       },
                       child: Text(
-                        "Cancelar",
+                        "Cancelar admin",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -164,7 +165,7 @@ class _RegisterPageState extends State<RegisterPageAdm> {
                                   width: 125.0,
                                 ),
                                 Text(
-                                  'Su solicitud está siendo procesada por un administrador',
+                                  'Ahora tiene una cuenta de Tutor',
                                   textAlign: TextAlign.center,
                                 ),
                               ],
@@ -183,7 +184,7 @@ class _RegisterPageState extends State<RegisterPageAdm> {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute<Null>(
                                           builder: (BuildContext contex) {
-                                    return new AdminPage();
+                                    return new AdminPage(email.text.trim());
                                   }), (Route<dynamic> route) => false);
                                 })
                           ],
@@ -198,7 +199,7 @@ class _RegisterPageState extends State<RegisterPageAdm> {
                 ? () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AdminPage()),
+                      MaterialPageRoute(builder: (context) => LoginPageAdmin()),
                     );
                   }
                 : () {
@@ -278,6 +279,27 @@ class _RegisterPageState extends State<RegisterPageAdm> {
                   }
                 },
               ),
+              TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  keyboardType: TextInputType.number,
+                  controller: phone,
+                  decoration: InputDecoration(
+                    label: Row(
+                      children: [
+                        Text("Celular",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text(" *", style: const TextStyle(color: Colors.red)),
+                      ],
+                    ),
+                    prefixIcon: Icon(Icons.phone),
+                  ),
+                  validator: (value) {
+                    if (value!.isNotEmpty) {
+                      return phoneValidation(value);
+                    } else {
+                      return 'No puede dejar este casillero vacío';
+                    }
+                  }),
               TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 controller: email,
@@ -567,7 +589,8 @@ class _RegisterPageState extends State<RegisterPageAdm> {
         "surname": surname.text.trim(),
         "Rol": "Admin",
         "email": email.text.trim(),
-        "password":password.text.trim()
+        "password":password.text.trim(),
+        "phone":phone.text.trim()
       });
     });
   }

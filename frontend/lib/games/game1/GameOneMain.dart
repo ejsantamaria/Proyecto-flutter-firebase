@@ -7,13 +7,16 @@ import 'package:frontend/games/game1/data/data.dart';
 import 'package:frontend/models/scoreModel.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-const maxPoints = 100; //800
+const maxPoints = 800; //800
 Duration _totalTime = new Duration();
 var _startDate;
 var _endDate;
 bool _startGame = false;
 bool _abandoned = false;
+String urlMessage = "";
+var student_json;
 
 class GameOneMain extends StatefulWidget {
   String student;
@@ -25,10 +28,6 @@ class GameOneMain extends StatefulWidget {
 class _GameOneMainState extends State<GameOneMain> {
   List<TileModel> gridViewTiles = [];
   List<TileModel> questionPairs = [];
-
-  var student_json;
-  
-  
 
   @override
   void initState() {
@@ -61,17 +60,21 @@ class _GameOneMainState extends State<GameOneMain> {
     print("Informacion de estudiante: " + student_json.toString());
 
     return Scaffold(
-      backgroundColor: Constants.BACKGROUND_YELLOW,
+      backgroundColor: Constants.BACKGROUNDS,
       appBar: AppBar(
-        backgroundColor: Constants.APP_BAR_ORANGE,
-        title: Text("Memoriza las cartas"),
+        backgroundColor: Constants.BUTTONS_COLOR,
+        title: Text(
+          "Memoriza las cartas",
+          style: TextStyle(fontFamily: 'TitanOne'),
+        ),
         leading: BackButton(
           onPressed: () async {
             _abandoned = true;
-            if(_startGame){
+            if (_startGame) {
               _endDate = DateTime.now();
               _totalTime = _endDate.difference(_startDate);
-              print('Tiempo total: ${_totalTime.inSeconds} end date: ${_endDate} - startDate: ${_startDate}');
+              print(
+                  'Tiempo total: ${_totalTime.inSeconds} end date: ${_endDate} - startDate: ${_startDate}');
               await _sendToServer();
               _startGame = false;
             }
@@ -101,13 +104,17 @@ class _GameOneMainState extends State<GameOneMain> {
                         Text(
                           "$points/800",
                           style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.w500),
+                              fontSize: 30,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'TitanOne'),
                         ),
                         Text(
                           "Puntaje",
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.w300),
+                              fontSize: 30,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'TitanOne'),
                         ),
                       ],
                     )
@@ -133,6 +140,7 @@ class _GameOneMainState extends State<GameOneMain> {
                     )
                   : AlertDialog(
                       title: const Text('Fin del juego',
+                          style: TextStyle(fontFamily: 'TitanOne'),
                           textAlign: TextAlign.center),
                       content: SingleChildScrollView(
                         child: ListBody(
@@ -152,7 +160,9 @@ class _GameOneMainState extends State<GameOneMain> {
                           child: Text(
                             'Volver a jugar',
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: Constants.BLACK),
+                            style: TextStyle(
+                              color: Constants.BLACK,
+                            ),
                           ),
                           color: Constants.BTN_GREEN,
                           onPressed: () async {
@@ -187,6 +197,19 @@ class _GameOneMainState extends State<GameOneMain> {
                             });
                           },
                         ),
+                        FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  Constants.BORDER_RADIOUS)),
+                          child: Text(
+                            'Compartir resultados',
+                            style: TextStyle(color: Constants.BLACK),
+                          ),
+                          color: Constants.BTN_GREEN,
+                          onPressed: () async {
+                            await launch(urlMessage);
+                          },
+                        ),
                       ],
                     )
             ],
@@ -205,7 +228,7 @@ class _GameOneMainState extends State<GameOneMain> {
     scoreData.time = _totalTime.inSeconds.toString();
     scoreData.username = student_json['username'];
     scoreData.abandoned = _abandoned;
-    
+
     FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference;
       reference = FirebaseFirestore.instance.collection("puntajes");
@@ -240,7 +263,7 @@ class _TileState extends State<Tile> {
           if (selectedTile != "") {
             /// testing if the selected tiles are same
             if (selectedTile == myPairs[widget.tileIndex].getImageAssetPath()) {
-              print("add point");
+              print("add point (╯°□°)╯︵ ┻━┻");
               points = points + 100;
               print(selectedTile + " thishis" + widget.imagePathUrl);
 
@@ -258,10 +281,15 @@ class _TileState extends State<Tile> {
                 });
                 selectedTile = "";
               });
-              if (points >= maxPoints){
+              if (points >= maxPoints) {
                 _endDate = DateTime.now();
                 _totalTime = _endDate.difference(_startDate);
-                print('Tiempo total: ${_totalTime.inSeconds} end date: ${_endDate} - startDate: ${_startDate}');
+                print(
+                    'Tiempo total: ${_totalTime.inSeconds} end date: ${_endDate} - startDate: ${_startDate}');
+                urlMessage =
+                    "https://wa.me/593${student_json["tutorPhone"]}?text=Hola tutor!\nSoy ${student_json["name"]} ${student_json["surname"]}\n" + //${student_json["phone"]}
+                        "Mi puntaje en el juego encontrar los animales, es de ${points}ptos / 800ptos\n" +
+                        "En un tiempo total de ${_totalTime.inSeconds.toString()} segundos.";
               }
             } else {
               print(selectedTile +

@@ -7,6 +7,9 @@ import 'package:frontend/utils/constants.dart' as Constants;
 import 'package:frontend/pages/loginStudent.dart';
 
 class ExitMenu extends StatelessWidget {
+  final String role;
+  ExitMenu(this.role, {Key? key}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     final mainProvider = Provider.of<MainProvider>(context, listen: false);
@@ -19,7 +22,7 @@ class ExitMenu extends StatelessWidget {
             child: Column(
               children: [
                 _showImage(),
-                Text("Administrador/a"),
+                Text(role),
                 Container(
                   width: 200.0,
                   padding: EdgeInsets.only(top: 25),
@@ -33,7 +36,7 @@ class ExitMenu extends StatelessWidget {
               gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  colors: [Theme.of(context).primaryColor, Constants.VINTAGE]),
+                  colors: [Theme.of(context).primaryColor, Color(0xffF5F0BB)]),
             ),
           ),
           ListTile(

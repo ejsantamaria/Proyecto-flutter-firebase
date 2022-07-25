@@ -9,6 +9,7 @@ import 'package:frontend/models/scoreModel.dart';
 import 'package:frontend/utils/constants.dart' as Constants;
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:word_search/word_search.dart';
 
 Duration _totalTime = new Duration();
@@ -17,6 +18,7 @@ var _endDate;
 bool _startGame = false;
 bool _abandoned = false;
 var student_json;
+String urlMessage = "";
 
 class GameTwoMain extends StatefulWidget {
   String student;
@@ -47,11 +49,6 @@ class _GameTwoMainState extends State<GameTwoMain> {
   ];
 
   List<int> weights = [1, 2, 3, 4];
-  //String word = "Perro".toUpperCase();
-  //String word = "Gato".toUpperCase();
-  //Create a list that contains the Alphabet, or you can just copy and paste it
-
-  //String word = "Hola".toUpperCase();
   String word = words();
   List<String> alphabets = [
     "A",
@@ -88,12 +85,15 @@ class _GameTwoMainState extends State<GameTwoMain> {
   Widget build(BuildContext context) {
     student_json = json.decode(widget.student);
     return Scaffold(
-      backgroundColor: Constants.BACKGROUND_YELLOW,
+      backgroundColor: Constants.BACKGROUNDS,
       appBar: AppBar(
-        title: Text("Adivina la palabra"),
+        title: Text(
+          "Adivina la palabra",
+          style: TextStyle(fontFamily: 'TitanOne'),
+        ),
         elevation: 0,
         centerTitle: true,
-        backgroundColor: Constants.APP_BAR_ORANGE,
+        backgroundColor: Constants.BUTTONS_COLOR,
         leading: BackButton(
           onPressed: (() async {
             _abandoned = true;
@@ -114,10 +114,8 @@ class _GameTwoMainState extends State<GameTwoMain> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            child: Text("Puntaje: " + Game.score.toString() + " pts / 6 pts",
-                style: TextStyle(
-                  fontSize: 20,
-                )),
+            child: Text("Puntaje: " + Game.score.toString() + " ptos / 6 ptos",
+                style: TextStyle(fontSize: 20, fontFamily: 'TitanOne')),
             alignment: Alignment.bottomCenter,
             height: 23,
           ),
@@ -178,14 +176,21 @@ class _GameTwoMainState extends State<GameTwoMain> {
                           });
                           //
                           if (Game.score <= 0) {
+                            Game.score = 0;
                             _endDate = DateTime.now();
                             _totalTime = _endDate.difference(_startDate);
                             _abandoned = false;
+                            urlMessage =
+                                "https://wa.me/593${student_json["tutorPhone"]}?text=Hola tutor!\nSoy ${student_json["name"]} ${student_json["surname"]}\n" + //${student_json["phone"]}
+                                    "Mi puntaje en el juego del ahorcado, es ${Game.score.toString()}ptos / 6ptos\n" +
+                                    "En un tiempo total de ${_totalTime.inSeconds.toString()} segundos.";
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: const Text('Fin del juego',
+                                        style:
+                                            TextStyle(fontFamily: 'TitanOne'),
                                         textAlign: TextAlign.center),
                                     content: SingleChildScrollView(
                                       child: ListBody(
@@ -244,6 +249,20 @@ class _GameTwoMainState extends State<GameTwoMain> {
                                           Navigator.of(context).pop();
                                         },
                                       ),
+                                      FlatButton(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                Constants.BORDER_RADIOUS)),
+                                        child: Text(
+                                          'Compartir resultados',
+                                          style:
+                                              TextStyle(color: Constants.BLACK),
+                                        ),
+                                        color: Constants.BTN_GREEN,
+                                        onPressed: () async {
+                                          await launch(urlMessage);
+                                        },
+                                      ),
                                     ],
                                   );
                                 });
@@ -251,11 +270,17 @@ class _GameTwoMainState extends State<GameTwoMain> {
                             _abandoned = false;
                             _endDate = DateTime.now();
                             _totalTime = _endDate.difference(_startDate);
+                            urlMessage =
+                                "https://wa.me/593${student_json["tutorPhone"]}?text=Hola tutor!\nSoy ${student_json["name"]} ${student_json["surname"]}\n" + //${student_json["phone"]}
+                                    "Mi puntaje en el juego del ahorcado, es ${Game.score.toString()}ptos / 6ptos\n" +
+                                    "En un tiempo total de ${_totalTime.inSeconds.toString()} segundos.";
                             showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: const Text('Fin del juego',
+                                        style:
+                                            TextStyle(fontFamily: 'TitanOne'),
                                         textAlign: TextAlign.center),
                                     content: SingleChildScrollView(
                                       child: ListBody(
@@ -313,6 +338,20 @@ class _GameTwoMainState extends State<GameTwoMain> {
                                             Navigator.of(context).pop();
                                             Navigator.of(context).pop();
                                           });
+                                        },
+                                      ),
+                                      FlatButton(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                Constants.BORDER_RADIOUS)),
+                                        child: Text(
+                                          'Compartir resultados',
+                                          style:
+                                              TextStyle(color: Constants.BLACK),
+                                        ),
+                                        color: Constants.BTN_GREEN,
+                                        onPressed: () async {
+                                          await launch(urlMessage);
                                         },
                                       ),
                                     ],

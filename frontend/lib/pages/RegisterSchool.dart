@@ -8,8 +8,9 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class RegisterSchool extends StatefulWidget {
   const RegisterSchool({
-    Key? key,
+    Key? key, required this.emailAdmin
   }) : super(key: key);
+  final String ? emailAdmin;
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
@@ -108,7 +109,7 @@ class _RegisterPageState extends State<RegisterSchool> {
                       onPressed: () => {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AdminPage()),
+                          MaterialPageRoute(builder: (context) => AdminPage(widget.emailAdmin)),
                         )
                       },
                       child: Text(
@@ -181,7 +182,7 @@ class _RegisterPageState extends State<RegisterSchool> {
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute<Null>(
                                           builder: (BuildContext contex) {
-                                    return new AdminPage();
+                                    return new AdminPage(widget.emailAdmin);
                                   }), (Route<dynamic> route) => false);
                                 })
                           ],
@@ -196,7 +197,7 @@ class _RegisterPageState extends State<RegisterSchool> {
                 ? () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AdminPage()),
+                      MaterialPageRoute(builder: (context) => AdminPage(widget.emailAdmin)),
                     );
                   }
                 : () {

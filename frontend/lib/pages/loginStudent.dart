@@ -294,7 +294,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                     mainProvider.token = user.uid;
                     mainProvider.adm = false;
 
-                    motocycleRol(mainProvider.motocycle);
+                    studentRol(mainProvider.motocycle);
                     ScaffoldSnackbar.of(context)
                         .show('${user.email} Bienvenido Usuario');
                   } else {
@@ -325,13 +325,13 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
   }
 
 //A TRAVÉS DEL UID HACER UNA CONSULTA Y PASAR COMO PARÁMETRO EL
-  Future<dynamic> motocycleRol(String motocycle) {
+  Future<dynamic> studentRol(String student) {
     return Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => MainPage(
                   titulo: "Usuario",
-                  student: motocycle,
+                  student: student,
                 )));
   }
 }

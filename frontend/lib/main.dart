@@ -28,34 +28,15 @@ void main() async {
   ));
 }
 
-/*
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Prowess Bike',
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
-      ),
-      home: AdminPage(),
-    );
-  }
-}
-*/
-
-//Keep User Logged in Flutter-Firebase
 class MyApp extends StatefulWidget {
-  // This widget is the root of your application.
+
 
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-//class _MyAppState extends StatelessWidget {
 
-  // ignore: cancel_subscriptions
   late StreamSubscription<User?> user;
   late bool _pedidos = false;
   void initState() {
@@ -65,7 +46,6 @@ class _MyAppState extends State<MyApp> {
         print('User is currently signed out!');
       } else {
         print('User is signed in!');
-        //checkPedidos();
       }
     });
   }
@@ -88,13 +68,10 @@ class _MyAppState extends State<MyApp> {
                 theme: ThemeData(
                   primarySwatch: Colors.grey,
                 ),
-                home: /*mainProvider.token == ""  mainProvider.adm == false
-                    ? LoginPage()
-                    : AdminPage())*/
+                home: 
                     mainProvider.token == ""
-                        ? LoginSelector()//LoginPage()
-                            : /*MainPage(
-                                titulo: '', motocycle: mainProvider.motocycle)*/
+                        ? LoginSelector()
+                            : 
                             mainProvider.pendientes
                                 ? OrderMot(
                                     motocycle: mainProvider.motocycle,
@@ -107,37 +84,4 @@ class _MyAppState extends State<MyApp> {
               dimension: 100.0, child: CircularProgressIndicator());
         });
   }
-
-  /*checkPedidos() async {
-    final mainProvider = Provider.of<MainProvider>(context);
-    await mainProvider.getPreferences();
-    dev.log("Main", name: "MainProvider - checkPedidos");
-    dev.log(mainProvider.motocycle, name: "MainProvider - checkPedidos");
-    Motocycle motocycleObject = new Motocycle.fromJson(
-        json.decode(mainProvider.motocycle) as Map<String, dynamic>);
-
-    await FirebaseFirestore.instance
-        .collection("pedidos")
-        .where("uid_mot", isEqualTo: motocycleObject.uid)
-        .where(
-          "estado",
-          whereIn: ["recogido", "en proceso", "en ruta"],
-        )
-        .get()
-        .then((querySnapshot) {
-          dev.log("checkPedidos");
-          dev.log(querySnapshot.toString(), name: "checkPedidos");
-          if (querySnapshot.docs.length > 0) {
-            dev.log("checkPedidos mayor que 0");
-            mainProvider.pendientes = true;
-            dev.log(mainProvider.pendientes.toString(),
-                name: "checkPedidos mayor que 0");
-          } else {
-            mainProvider.pendientes = false;
-            dev.log("Menor que 0", name: "checkPedidos");
-            dev.log(mainProvider.pendientes.toString(),
-                name: "checkPedidos menor que 0");
-          }
-        });
-  }*/
 }
