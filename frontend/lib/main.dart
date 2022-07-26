@@ -57,7 +57,6 @@ class _MyAppState extends State<MyApp> {
         future: mainProvider.getPreferences(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            // ignore: unused_local_variable
             final String str = mainProvider.token;
             dev.log("Main", name: "MainProvider String - Main");
             dev.log(str, name: "MainProvider String - Main");

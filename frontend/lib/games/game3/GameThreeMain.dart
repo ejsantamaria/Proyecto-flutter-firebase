@@ -130,7 +130,6 @@ class _GameThreeMainState extends State<GameThreeMain> {
                         _startGame = true;
                         print(_game.matchCheck);
                         setState(() {
-                          //incrementing the clicks
                           tries++;
                           _game.gameImg![index] = _game.cards_list[index];
                           _game.matchCheck
@@ -141,7 +140,6 @@ class _GameThreeMainState extends State<GameThreeMain> {
                           if (_game.matchCheck[0].values.first ==
                               _game.matchCheck[1].values.first) {
                             print("true");
-                            //incrementing the score
                             score += 100;
                             _game.matchCheck.clear();
                           } else {

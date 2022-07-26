@@ -23,12 +23,10 @@ class _RegisterPageState extends State<RegisterPageAdm> {
   String cityValue = "";
   String addressCountry = "";
   late String us = "";
-  // ignore: unused_field
   late bool? _success;
   late int cont;
   late bool _visible = true;
   late bool _valid = false;
-  // ignore: unused_field
   late String _userEmail = '';
 
   final name = TextEditingController();
@@ -64,7 +62,6 @@ class _RegisterPageState extends State<RegisterPageAdm> {
 
   @override
   Widget build(BuildContext context) {
-    //Cargar los datos en la lista
     recuperarEmail();
     return SizedBox(
       width: 500,
@@ -484,7 +481,7 @@ class _RegisterPageState extends State<RegisterPageAdm> {
   }
 
   String? phoneValidation(String? phone) {
-    String patttern = r'(^[0-9]*$)'; //comprobar si funciona
+    String patttern = r'(^[0-9]*$)'; 
     RegExp regExp = new RegExp(patttern);
     if (phone!.length == 0) {
       return "Celular requerido";
@@ -497,7 +494,7 @@ class _RegisterPageState extends State<RegisterPageAdm> {
   }
 
   String? ageValidation(String? age) {
-    String patttern = r'(^[0-9]*$)'; //comprobar si funciona
+    String patttern = r'(^[0-9]*$)'; 
     var edad = int.tryParse(age!);
     RegExp regExp = new RegExp(patttern);
     if (!regExp.hasMatch(age)) {
@@ -602,7 +599,6 @@ class _RegisterPageState extends State<RegisterPageAdm> {
     ))
         .user;
     us = user!.uid;
-    // ignore: unnecessary_null_comparison
     if (user != null) {
       setState(() {
         _success = true;
@@ -613,7 +609,6 @@ class _RegisterPageState extends State<RegisterPageAdm> {
     }
   }
 
-  //Funcion para recuperar email de la BD
   Future<void> recuperarEmail() async {
     var rol = "";
     var email;

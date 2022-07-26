@@ -68,22 +68,6 @@ class _OrderMotState extends State<OrderMot> {
                 );
               }
               return ListView();
-              /*return ListView(
-                  children:
-                      snapshot.data!.docs.map((DocumentSnapshot document) {
-                Pedido model =
-                    Pedido.fromJson(document.data() as Map<String, dynamic>);
-                model.documentId = document.id;
-                dev.log(model.toJson().toString(),
-                    name: "model from OrderMorPage");
-                if(newDate.isBefore(model.fecha!)) {
-                  return  OrderCard(
-                  pedido: model,
-                  pendiente: widget.pendiente,
-                );
-                };
-                return  Container();
-              }).toList());*/
             }));
   }
 }

@@ -379,8 +379,6 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                 })
               });
     } catch (e) {
-      /*ScaffoldSnackbar.of(context).show(
-          'Error al iniciar sesión, por favor revise que su correo electrónico y contraseña sean correctos');*/
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -633,7 +631,6 @@ _showImage() {
 
 recoverPassword(BuildContext context) {
   return MaterialButton(onPressed: () {
-    //newPasswordPopUp(context);
   });
 }
 

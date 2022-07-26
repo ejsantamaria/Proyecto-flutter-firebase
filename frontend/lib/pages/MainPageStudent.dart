@@ -183,30 +183,6 @@ class _MainPageState extends State<MainPage> {
               ),
             ),
           ),
-          /*Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: MaterialButton(
-                minWidth: 300,
-                height: 50,
-                color: Constants.BUTTONS_COLOR,
-                shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(Constants.BORDER_RADIOUS)),
-                onPressed: () async {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              GameFiveMainExecute()));
-                },
-                child: Text(
-                  "Salta, salta",
-                  style: TextStyle(color: Colors.white, fontFamily: 'TitanOne'),
-                ),
-              ),
-            ),
-          ),*/
         ],
       )),
     );

@@ -84,10 +84,6 @@ class _GameTwoMainState extends State<GameTwoMain> {
   @override
   Widget build(BuildContext context) {
     student_json = json.decode(widget.student);
-    /* "naranja".toUpperCase(),
-    "pera".toUpperCase(),
-    "uva".toUpperCase(),
-    "mora"*/
     var track="";
     switch (word){
       case "NARANJA":
@@ -178,10 +174,6 @@ class _GameTwoMainState extends State<GameTwoMain> {
           Center(
             child: Stack(
               children: [
-                //let's make the figure widget
-                //let's add the images to the asset folder
-                //Okey now we will create a Game class
-                //Now the figure will be built according to the number of tries
                 figureImage(Game.tries >= 0, "assets/hang.png"),
                 figureImage(Game.tries >= 1, "assets/head.png"),
                 figureImage(Game.tries >= 2, "assets/body.png"),
@@ -192,10 +184,6 @@ class _GameTwoMainState extends State<GameTwoMain> {
               ],
             ),
           ),
-          //Now we will build the Hidden word widget
-          //now let's go back to the Game class and add
-          // a new variable to store the selected character
-          /* and check if it's on the word */
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: word
@@ -204,7 +192,6 @@ class _GameTwoMainState extends State<GameTwoMain> {
                     !Game.selectedChar.contains(e.toUpperCase())))
                 .toList(),
           ),
-          //Now let's build the Game keyboard
           SizedBox(
             width: double.infinity,
             height: 250.0,
@@ -216,7 +203,7 @@ class _GameTwoMainState extends State<GameTwoMain> {
               children: alphabets.map((e) {
                 return RawMaterialButton(
                   onPressed: Game.selectedChar.contains(e)
-                      ? null // we first check that we didn't selected the button before
+                      ? null 
                       : () {
                           _startGame = true;
                           setState(() {
@@ -289,7 +276,6 @@ class _GameTwoMainState extends State<GameTwoMain> {
                                           style:
                                               TextStyle(color: Constants.BLACK),
                                         ),
-                                        //color: Constants.BUTTONS_COLOR,
                                         color: Constants.BTN_RED,
                                         onPressed: () async {
                                           await _sendToServer();

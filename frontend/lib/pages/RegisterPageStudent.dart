@@ -14,9 +14,11 @@ import 'package:frontend/utils/constants.dart' as Constants;
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class RegisterPageStudent extends StatefulWidget {
-  const RegisterPageStudent({Key? key, required this.adm, required this.emailAdmin}) : super(key: key);
+  const RegisterPageStudent(
+      {Key? key, required this.adm, required this.emailAdmin})
+      : super(key: key);
   final bool adm;
-  final String ?emailAdmin;
+  final String? emailAdmin;
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
@@ -110,6 +112,19 @@ class _RegisterPageState extends State<RegisterPageStudent> {
   String _username = "";
   String selectedItem = "";
   List<String> items_school = [];
+  List<String> school_level = [
+    "1er Grado EGB",
+    "2do Grado EGB",
+    "3er Grado EGB",
+    "4to Grado EGB",
+    "5to Grado EGB",
+    "6to Grado EGB",
+    "7mo Grado EGB",
+    "8vo Grado EGB",
+    "9no Grado EGB",
+    "10mo Grado EGB"
+  ];
+  List<String> parallel_data = ["A", "B", "C", "D", "E", "F"];
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +135,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
     return SizedBox(
       width: 500,
       height: 800,
+      
       child: Scaffold(
         backgroundColor: Constants.BACKGROUNDS,
         appBar: AppBar(
@@ -515,19 +531,23 @@ class _RegisterPageState extends State<RegisterPageStudent> {
             padding: EdgeInsets.all(11.0),
             child: Column(children: <Widget>[
               SizedBox(
-                  width: 276,
                   child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      label: Row(
+                        children: [
+                          Text("Unidad educativa",
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text(" *", style: const TextStyle(color: Colors.red)),
+                        ],
+                      ),
+                      prefixIcon: Icon(Icons.house_outlined),
+                    ),
                     elevation: 100,
                     alignment: AlignmentDirectional.center,
                     isExpanded: true,
                     icon: const Icon(Icons.arrow_downward),
                     iconSize: 30.0,
                     style: TextStyle(color: Colors.black),
-                    hint: Text("Seleccione la unidad educativa",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                        
-                        ),
-                    
                     items: items_school.map((_item) {
                       return DropdownMenuItem(
                         value: _item,
@@ -537,34 +557,32 @@ class _RegisterPageState extends State<RegisterPageStudent> {
                     onChanged: (val) =>
                         setState(() => school.text = val.toString()),
                   )),
-              TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                keyboardType: TextInputType.name,
-                controller: grade,
+              DropdownButtonFormField(
                 decoration: InputDecoration(
                   label: Row(
                     children: [
-                      Text("Curso",
+                      Text("Nivel de educación",
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(" *", style: const TextStyle(color: Colors.red)),
                     ],
                   ),
-                  prefixIcon: Icon(Icons.person_outline_outlined),
+                  prefixIcon: Icon(Icons.school_outlined),
                 ),
-                validator: (value) {
-                  if (value!.isNotEmpty) {
-                    return null;
-                  } else {
-                    if (value.isEmpty) {
-                      return 'No puede dejar este casillero vacío\nEjemplo: Unidad educativa 3 de Diciembre';
-                    }
-                  }
-                },
+                elevation: 100,
+                alignment: AlignmentDirectional.center,
+                isExpanded: true,
+                icon: const Icon(Icons.arrow_downward),
+                iconSize: 30.0,
+                style: TextStyle(color: Colors.black),
+                items: school_level.map((_item) {
+                  return DropdownMenuItem(
+                    value: _item,
+                    child: Text("$_item"),
+                  );
+                }).toList(),
+                onChanged: (val) => setState(() => grade.text = val.toString()),
               ),
-              TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                keyboardType: TextInputType.name,
-                controller: gparallel,
+              DropdownButtonFormField(
                 decoration: InputDecoration(
                   label: Row(
                     children: [
@@ -573,17 +591,21 @@ class _RegisterPageState extends State<RegisterPageStudent> {
                       Text(" *", style: const TextStyle(color: Colors.red)),
                     ],
                   ),
-                  prefixIcon: Icon(Icons.person_outline_outlined),
+                  prefixIcon: Icon(Icons.school_outlined),
                 ),
-                validator: (value) {
-                  if (value!.isNotEmpty) {
-                    return null;
-                  } else {
-                    if (value.isEmpty) {
-                      return 'No puede dejar este casillero vacío\nEjemplo: Unidad educativa 3 de Diciembre';
-                    }
-                  }
-                },
+                elevation: 100,
+                alignment: AlignmentDirectional.center,
+                isExpanded: true,
+                icon: const Icon(Icons.arrow_downward),
+                iconSize: 30.0,
+                style: TextStyle(color: Colors.black),
+                items: parallel_data.map((_item) {
+                  return DropdownMenuItem(
+                    value: _item,
+                    child: Text("$_item"),
+                  );
+                }).toList(),
+                onChanged: (val) => setState(() => gparallel.text = val.toString()),
               ),
               TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -975,9 +997,11 @@ class _RegisterPageState extends State<RegisterPageStudent> {
   }
 
   Future<void> _sendToServer(bool admin) async {
-    print("Entre a en el envio del formulario estudiante, dato del administrador" + widget.emailAdmin.toString());
+    print(
+        "Entre a en el envio del formulario estudiante, dato del administrador" +
+            widget.emailAdmin.toString());
     _username = await createUsername(name.text, secondname.text, surname.text);
-    String adminPhone = await getPhoneAdmin(widget.emailAdmin).toString();
+    String adminPhone = await getPhoneAdmin(widget.emailAdmin);
     FirebaseFirestore.instance.runTransaction((Transaction transaction) async {
       CollectionReference reference;
       if (admin) {
@@ -997,7 +1021,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
           "gparallel": gparallel.text.trim(),
           "username": _username.trim(),
           "secondname": secondname.text.trim(),
-          "tutorPhone" :  adminPhone,
+          "tutorPhone": adminPhone,
         });
       } else {
         reference = FirebaseFirestore.instance.collection('usuarios');
@@ -1016,7 +1040,7 @@ class _RegisterPageState extends State<RegisterPageStudent> {
           "gparallel": gparallel.text.trim(),
           "username": _username.trim(),
           "secondname": secondname.text.trim(),
-          "tutorPhone" :  adminPhone,
+          "tutorPhone": adminPhone,
         });
       }
     });
@@ -1038,7 +1062,6 @@ class _RegisterPageState extends State<RegisterPageStudent> {
         user.uid +
         "uid: " +
         us);
-    // ignore: unnecessary_null_comparison
     if (user != null) {
       setState(() {
         _success = true;
@@ -1047,10 +1070,8 @@ class _RegisterPageState extends State<RegisterPageStudent> {
     } else {
       _success = false;
     }
-
   }
 
-  //Funcion para guardar los correos electronicos registrados
   recuperarEmail() async {
     var rol = "";
     var email;
@@ -1069,17 +1090,18 @@ class _RegisterPageState extends State<RegisterPageStudent> {
     await getSchoolsDB();
   }
 
-  getPhoneAdmin(String? email) async{
-    var phoneAdmin = "";
+  getPhoneAdmin(String? email) async {
+    String phoneAdmin = "";
     await FirebaseFirestore.instance
         .collection('usuarios')
         .where("email", isEqualTo: email)
         .get()
         .then((value) => {
               value.docs.forEach((result) {
-                phoneAdmin = result.get("phone");
+                phoneAdmin = result.get("phone").toString();
               })
             });
+    print("Numero de telefono del tutor encontrado: "+phoneAdmin);
     return phoneAdmin;
   }
 

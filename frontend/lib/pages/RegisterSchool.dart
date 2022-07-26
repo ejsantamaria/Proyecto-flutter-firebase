@@ -23,12 +23,10 @@ class _RegisterPageState extends State<RegisterSchool> {
   String cityValue = "";
   String addressCountry = "";
   late String us = "";
-  // ignore: unused_field
   late bool? _success;
   late int cont;
   late bool _visible = true;
   late bool _valid = false;
-  // ignore: unused_field
   late String _userEmail = '';
 
   final name = TextEditingController();
@@ -42,7 +40,6 @@ class _RegisterPageState extends State<RegisterSchool> {
   final email = TextEditingController();
   final password = TextEditingController();
 
-  //Lista para guardar email de la BD
   List emailBD = [];
 
   List<GlobalKey<FormState>> _listKeys = [
@@ -245,15 +242,6 @@ class _RegisterPageState extends State<RegisterSchool> {
                   ),
                   prefixIcon: Icon(Icons.person_outline_outlined),
                 ),
-                /*validator: (value) {
-                  if (value!.isNotEmpty) {
-                    return nameValidation(value);
-                  } else {
-                    if (value.isEmpty) {
-                      return 'No puede dejar este casillero vacío\nEjemplo: Diego';
-                    }
-                  }
-                },*/
               ),
             ])));
   }

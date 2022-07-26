@@ -37,7 +37,6 @@ class _SchoolListState extends State<SchoolList> {
               currentSchool: studentQuery,
               adm:true,
             )
-            //DeleteBikeCard(currentMotocycle: motocycle),
           ],
         ));
   }

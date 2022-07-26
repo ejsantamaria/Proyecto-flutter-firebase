@@ -10,7 +10,6 @@ import 'package:frontend/utils/constants.dart' as Constants;
 class AdminPage extends StatefulWidget {
   String? emailAdmin;
   AdminPage(this.emailAdmin, {Key? key}) : super(key: key);
-  //AdminPage(this.emailAdmin, {Key? key});
   @override
   State<AdminPage> createState() => _AdminPageState();
 }

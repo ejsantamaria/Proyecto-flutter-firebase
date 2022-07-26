@@ -487,7 +487,7 @@ class SearchButtonControl extends StatelessWidget {
     return StreamBuilder(
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return MaterialButton(
-          color: Constants.VINTAGE,
+          color: Constants.BUTTONS_COLOR,
           onPressed: () {
             resetPassword(context);
           },
