@@ -1,4 +1,0 @@
-#Sat Jul 23 11:32:26 COT 2022
-base.0=D\:\\Proyecto LEAC\\Proyecto-LEAC\\Games\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-renamed.0=classes.dex
-path.0=classes.dex

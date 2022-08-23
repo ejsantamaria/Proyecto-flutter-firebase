@@ -1,4 +1,0 @@
-io/flutter/plugins/GeneratedPluginRegistrant.java
- io.flutter.plugins.GeneratedPluginRegistrant
-com/example/tictactoe_tutorial/BuildConfig.java
- com.example.tictactoe_tutorial.BuildConfig

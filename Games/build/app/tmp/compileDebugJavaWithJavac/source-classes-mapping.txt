@@ -1,4 +1,0 @@
-io/flutter/plugins/GeneratedPluginRegistrant.java
- io.flutter.plugins.GeneratedPluginRegistrant
-com/example/hangman_game_tut/BuildConfig.java
- com.example.hangman_game_tut.BuildConfig
