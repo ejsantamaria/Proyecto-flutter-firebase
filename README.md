@@ -1,7 +1,5 @@
 # TDA Kids - Aplicación para el Trastorno por Déficit de Atención en Niños
 
-![Logo del Proyecto](url_del_logo.png)
-
 ## Descripción del Proyecto
 
 TDA Kids es una aplicación móvil diseñada para ayudar a niños que sufren de Trastorno por Déficit de Atención (TDA) a mejorar su atención y concentración a través de una serie de juegos educativos y divertidos. La aplicación ofrece dos perfiles principales:
