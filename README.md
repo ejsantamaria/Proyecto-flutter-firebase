@@ -1,8 +1,8 @@
-# TDA Kids - Aplicación para el Trastorno por Déficit de Atención en Niños
+# MindTDAH - Aplicación para el Trastorno por Déficit de Atención en Niños
 
 ## Descripción del Proyecto
 
-TDA Kids es una aplicación móvil diseñada para ayudar a niños que sufren de Trastorno por Déficit de Atención (TDA) a mejorar su atención y concentración a través de una serie de juegos educativos y divertidos. La aplicación ofrece dos perfiles principales:
+MindTDAH es una aplicación móvil diseñada para ayudar a niños que sufren de Trastorno por Déficit de Atención (TDA) a mejorar su atención y concentración a través de una serie de juegos educativos y divertidos. La aplicación ofrece dos perfiles principales:
 
 - **Perfil del Jugador (Niño):** Los niños pueden jugar una variedad de juegos diseñados para ayudar a mejorar su atención y habilidades cognitivas mientras se divierten.
 
@@ -22,11 +22,3 @@ TDA Kids es una aplicación móvil diseñada para ayudar a niños que sufren de 
 - Base de datos en tiempo real de Firebase para almacenar datos de progreso y rendimiento.
 - Informes y estadísticas para que los padres/tutores puedan realizar un seguimiento del desarrollo de sus hijos.
 
-## Instalación y Uso
-
-Para utilizar la aplicación, sigue estos pasos:
-
-1. Clona el repositorio:
-
-   ```bash
-   git clone https://github.com/tuusuario/tda-kids-app.git
